@@ -125,17 +125,8 @@ int process(const Parameters &params, std::string &message) {
         (params.gait + "_" + params.trial + "_markers.trc");
 
     // 2.5 - Calculate start and end time
-    // OpenSim::TRCFileAdapter trcfileadapter{};
-    // OpenSim::TimeSeriesTableVec3 markerTable{markerData.string()};
-
     double startTime = params.startTime;
     double endTime = params.endTime;
-
-    // findStartEndTimeBasedOnNaN(markerTable, startTime, endTime);
-    // // Add padding
-    // const double timePadding = 0.5;
-    // startTime += timePadding;
-    // endTime -= timePadding;
     appendMessage(message, "Start time: ", startTime, " End Time: ", endTime);
 
     const OpenSim::Array<double> timeRange{0, 2};
@@ -204,21 +195,9 @@ int process(const Parameters &params, std::string &message) {
         domuModelPath = orientationModelDeletedImusPath;
       }
       if (weight.second.getName().find("torso") != std::string::npos) {
-
-        // OpenSim::Model model = OpenSim::Model(domuModelPath.string());
-        // // additional paths
-        // std::vector<std::string> paths = {"/bodyset/torso"};
-        // OpenSim::OpenSenseUtilities().addModelIMUs(model, paths);
-        // std::string model_plus_torso_path =
-        //     domuModelPath.parent_path() /
-        //     (domuModelPath.stem().string() + "_torso_imu" +
-        //      domuModelPath.extension().string());
-        // model.print(model_plus_torso_path);
-
         domuModelPath =
             imuPlacer(orientation_fk_output_file_noise, markerFilePath,
                       domuModelPath, domuResultsDir);
-        // domuOrientationPath = orientation_fk_output_file_noise.string();
         std::cout << "Added torso IMU! " << domuModelPath << std::endl;
       }
 

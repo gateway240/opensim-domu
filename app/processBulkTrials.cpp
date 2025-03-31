@@ -71,7 +71,7 @@ const std::string fileNameSetupIKTasks = "bin/kg_IK_Tasks_uniform.xml";
 const std::string fileNameSetupMarkerIK =
     "bin/setup_MarkerInverseKinematics.xml";
 const std::string fileNameDistanceDataReaderPath =
-    "bin/myDOMUMappingsSensor_torso.xml";
+    "bin/myDOMUMappingsSensor.xml";
 
 struct ParticipantData {
   std::string participant;

@@ -30,7 +30,6 @@
 #include "simbody/internal/AssemblyCondition_DistanceSensors.h"
 #include <map>
 #include <iostream>
-using std::cout; using std::endl;
 
 using namespace SimTK;
 

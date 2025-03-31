@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSimDocument Version="40000">
+	<DistanceWeightSet name="all_uniform_dweights">
+		<objects>
+			<DistanceWeight name="calcn_l_imu-calcn_r_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_l_imu-femur_l_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_l_imu-femur_r_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_l_imu-pelvis_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_l_imu-tibia_l_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_l_imu-tibia_r_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_l_imu-torso_imu">
+				<weight>0</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_r_imu-femur_l_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_r_imu-femur_r_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_r_imu-pelvis_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_r_imu-tibia_l_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_r_imu-tibia_r_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="calcn_r_imu-torso_imu">
+				<weight>0</weight>
+			</DistanceWeight>
+			<DistanceWeight name="femur_l_imu-femur_r_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="femur_l_imu-pelvis_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="femur_l_imu-tibia_l_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="femur_l_imu-tibia_r_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="femur_l_imu-torso_imu">
+				<weight>0</weight>
+			</DistanceWeight>
+			<DistanceWeight name="femur_r_imu-pelvis_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="femur_r_imu-tibia_l_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="femur_r_imu-tibia_r_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="femur_r_imu-torso_imu">
+				<weight>0</weight>
+			</DistanceWeight>
+			<DistanceWeight name="pelvis_imu-tibia_l_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="pelvis_imu-tibia_r_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="pelvis_imu-torso_imu">
+				<weight>0</weight>
+			</DistanceWeight>
+			<DistanceWeight name="tibia_l_imu-tibia_r_imu">
+				<weight>1</weight>
+			</DistanceWeight>
+			<DistanceWeight name="tibia_l_imu-torso_imu">
+				<weight>0</weight>
+			</DistanceWeight>
+			<DistanceWeight name="tibia_r_imu-torso_imu">
+				<weight>0</weight>
+			</DistanceWeight>
+		</objects>
+	</DistanceWeightSet>
+</OpenSimDocument>

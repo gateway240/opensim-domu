@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSimDocument Version="40000">
+	<DistanceDataReaderSettings name="all-distance-settings">
+		<!--Name of trial (Common prefix of txt files representing trial).-->
+		<trial_prefix>test_distance_analysis_DistanceKinematicsIMU_dist</trial_prefix>
+		<data_folder>resultsSensor</data_folder>
+		<!--List of Experimental sensors and desired associated names in resulting tables-->
+		<ExperimentalSensors>
+			<ExperimentalSensor name="_calcn_l_imu-calcn_r_imu">
+				<name_in_model>calcn_l_imu-calcn_r_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_calcn_l_imu-femur_l_imu">
+				<name_in_model>calcn_l_imu-femur_l_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_calcn_l_imu-femur_r_imu">
+				<name_in_model>calcn_l_imu-femur_r_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_calcn_l_imu-pelvis_imu">
+				<name_in_model>calcn_l_imu-pelvis_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_calcn_l_imu-tibia_l_imu">
+				<name_in_model>calcn_l_imu-tibia_l_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_calcn_l_imu-tibia_r_imu">
+				<name_in_model>calcn_l_imu-tibia_r_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_calcn_r_imu-femur_l_imu">
+				<name_in_model>calcn_r_imu-femur_l_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_calcn_r_imu-femur_r_imu">
+				<name_in_model>calcn_r_imu-femur_r_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_calcn_r_imu-pelvis_imu">
+				<name_in_model>calcn_r_imu-pelvis_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_calcn_r_imu-tibia_l_imu">
+				<name_in_model>calcn_r_imu-tibia_l_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_calcn_r_imu-tibia_r_imu">
+				<name_in_model>calcn_r_imu-tibia_r_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_femur_l_imu-femur_r_imu">
+				<name_in_model>femur_l_imu-femur_r_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_femur_l_imu-pelvis_imu">
+				<name_in_model>femur_l_imu-pelvis_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_femur_l_imu-tibia_l_imu">
+				<name_in_model>femur_l_imu-tibia_l_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_femur_l_imu-tibia_r_imu">
+				<name_in_model>femur_l_imu-tibia_r_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_femur_r_imu-pelvis_imu">
+				<name_in_model>femur_r_imu-pelvis_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_femur_r_imu-tibia_l_imu">
+				<name_in_model>femur_r_imu-tibia_l_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_femur_r_imu-tibia_r_imu">
+				<name_in_model>femur_r_imu-tibia_r_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_pelvis_imu-tibia_l_imu">
+				<name_in_model>pelvis_imu-tibia_l_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_pelvis_imu-tibia_r_imu">
+				<name_in_model>pelvis_imu-tibia_r_imu</name_in_model>
+			</ExperimentalSensor>
+			<ExperimentalSensor name="_tibia_l_imu-tibia_r_imu">
+				<name_in_model>tibia_l_imu-tibia_r_imu</name_in_model>
+			</ExperimentalSensor>
+		</ExperimentalSensors>
+	</DistanceDataReaderSettings>
+</OpenSimDocument>

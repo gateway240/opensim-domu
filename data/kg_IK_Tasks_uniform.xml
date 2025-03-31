@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IKTaskSet name="kuopio_base_IK">
+	<objects>
+		<IKMarkerTask name="Torso1">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="Torso2">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="Torso3">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="Torso4">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFemur1">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFemur2">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFemur3">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFemur4">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFemur5">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFemur6">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFemur1">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFemur2">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFemur3">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFemur4">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFemur5">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFemur6">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RTibia1">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RTibia2">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RTibia3">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RTibia4">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RTibia5">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RTibia6">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LTibia1">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LTibia2">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LTibia3">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LTibia4">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LTibia5">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LTibia6">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFoot1">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFoot2">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFoot3">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFoot4">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFoot5">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFoot1">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFoot2">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFoot3">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFoot4">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFoot5">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="Pelvis1">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="Pelvis2">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="Pelvis3">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="Pelvis4">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="Pelvis_RFemur_score">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="Pelvis_LFemur_score">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFemur_RTibia_score">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RFemur_RTibia_sara">
+			<apply>true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFemur_LTibia_score">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LFemur_LTibia_sara">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RKnee">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LKnee">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="RTibia_RFoot_score">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+		<IKMarkerTask name="LTibia_LFoot_score">
+			<apply> true </apply>
+			<weight> 1.00000000 </weight>
+		</IKMarkerTask>
+	</objects>
+</IKTaskSet>

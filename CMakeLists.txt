@@ -157,8 +157,6 @@ set_target_properties(
     DEFINE_SYMBOL OSIMPLUGIN_EXPORTS
     PROJECT_LABEL "Libraries - ${PLUGIN_NAME}")
 
-# install_targets(/plugins RUNTIME_DIRECTORY /plugins  ${PLUGIN_NAME})
-
 # Thread Pool Lib
 # ----------------------------
 if(MSVC)
@@ -190,15 +188,19 @@ foreach( testsourcefile ${APP_SOURCES} )
 
 endforeach( testsourcefile ${APP_SOURCES} )
 
-
-# Specify the source and destination paths
+# Populate resources to proper directory with symlinks
+# Collect all files in the source directory
 set(SOURCE_DATA_FOLDER "${CMAKE_SOURCE_DIR}/data")
-set(DESTINATION_BIN_FOLDER "${CMAKE_BINARY_DIR}/bin")
+file(GLOB DATA_FILES "${SOURCE_DATA_FOLDER}/*")
+# Loop through each file and create a symlink in the build directory
+foreach(SOURCE_FILE ${DATA_FILES})
+    # Get the filename from the full path
+    get_filename_component(FILE_NAME ${SOURCE_FILE} NAME)
 
-# Copy the contents of the data folder to the bin folder
-file(GLOB DATA_FILES "${SOURCE_DATA_FOLDER}/*")  # Get all files in the data folder
+    # Define the symlink path
+    set(LINK_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${FILE_NAME}")
 
-# Copy each file individually
-foreach(file ${DATA_FILES})
-    file(COPY ${file} DESTINATION ${DESTINATION_BIN_FOLDER})
+    file(CREATE_LINK ${SOURCE_FILE} ${LINK_PATH})
+
+    message(STATUS "Created symlink: ${LINK_PATH} -> ${SOURCE_FILE}")
 endforeach()
