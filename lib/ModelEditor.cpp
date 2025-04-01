@@ -62,16 +62,6 @@ void find_and_replace(std::ifstream &file, const std::string &start_key,
       }
       lines.push_back(line);
     }
-    // file.close();
-
-    // if (modified) {
-    //   std::ofstream out_file(file_path);
-    //   for (const auto &modified_line : lines) {
-    //     out_file << modified_line << std::endl;
-    //   }
-    //   out_file.close();
-    //   std::cout << "File updated successfully: " << file_path << std::endl;
-    // }
 
   } catch (const std::exception &e) {
     std::cerr << "An error occurred: " << e.what() << std::endl;

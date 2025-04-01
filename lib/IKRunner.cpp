@@ -209,34 +209,15 @@ std::string markerIK(const std::filesystem::path &file,
     if (std::filesystem::exists(modelSourcePath)) {
       OpenSim::InverseKinematicsTool ik(setupIKPath.string());
       ik.setName(outputFilePrefix);
-      // OpenSim::Model mdl(modelSourcePath.string());
-      // mdl.initSystem();
-      // ik.setModel(mdl);
       ik.set_report_marker_locations(false);
       ik.set_model_file(modelSourcePath.string());
 
       ik.set_marker_file(sourceTrcFile.string());
-      // ik.setMarkerDataFileName(markerFileName);
       ik.set_output_motion_file(outputMotionFile.string());
 
       bool ikSuccess = false;
-      // double startTime = 0;
-      // double endTime = 15.0;
-      // const double timeIncrement = 0.5;
       ik.set_time_range(timeRange);
       ikSuccess = ik.run();
-      // std::cout << "Start Time: " << startTime << " End Time: " << endTime <<
-      // std::endl;
-      // do {
-      //   sync_out.println("Running IK! Trying with start time: ", startTime);
-      //   try {
-      //     ikSuccess = ik.run();
-      //   } catch (...) {
-      //     sync_out.println("IK Failed! Incrementing and trying again!");
-      //   }
-      //   startTime += timeIncrement;
-      //   ik.setStartTime(startTime);
-      // } while (!ikSuccess && startTime < endTime);
       ik.print((resultDir / (outputFilePrefix + sep + "marker_ik_output.xml"))
                    .string());
     }
@@ -270,17 +251,8 @@ std::string imuPlacer(const std::filesystem::path &file,
       OpenSim::IMUPlacer imuPlacer;
       imuPlacer.set_base_imu_label("pelvis_imu");
       imuPlacer.set_base_heading_axis("-z");
-      // 90 0 90
-      // imuPlacer.set_sensor_to_opensim_rotations(
-      //     SimTK::Vec3(-SimTK::Pi / 2, SimTK::Pi, 0));
-      // Known working
       imuPlacer.set_sensor_to_opensim_rotations(rotations);
-      // imuPlacer.set_coordinate_file_for_calibration(markerFile.string());
       imuPlacer.set_orientation_file_for_calibration(file.string());
-      // imuPlacer.set_IKTaskSet(ikTaskSet);
-
-      // OpenSim::Model model = OpenSim::Model(modelSourcePath.string());
-      // imuPlacer.setModel(model);
       imuPlacer.set_model_file(modelSourcePath.string());
 
       const std::string scaledOutputModelFilePrefix =
@@ -533,13 +505,7 @@ void domuIK(const std::filesystem::path &file,
           resultDir / (outputFilePrefix + sep + outputSuffix + ".mot");
       OpenSim::DistanceInverseKinematicsTool distanceIk;
       distanceIk.setName(outputFilePrefix);
-
       distanceIk.set_accuracy(9.9999999999999995e-07);
-
-      // const OpenSim::Array<double> range{
-      // std::numeric_limits<double>::infinity(), 2};
-      // Make range -Infinity to Infinity unless limited by data
-      // range[0] = 0.0;
       distanceIk.set_time_range(timeRange);
 
       OpenSim::Model model = OpenSim::Model(modelSourcePath.string());
@@ -548,7 +514,6 @@ void domuIK(const std::filesystem::path &file,
       const SimTK::Vec3 rotations(-SimTK::Pi / 2, 0, 0);
       distanceIk.set_sensor_to_opensim_rotations(rotations);
       distanceIk.setModel(model);
-      // distanceIk.set_model_file(modelSourcePath.string());
       distanceIk.set_distances_file(distance_fk_output_file);
       distanceIk.set_orientations_file(orientation_fk_output_file);
       distanceIk.set_results_directory(resultDir);
