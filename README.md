@@ -10,8 +10,9 @@ The code is tested with OpenSim v4.5.1 but should work with subsequent versions 
 The download splits the subjects into two folders. Consolidate all the trials so that subjects 01-51 are located within the same folder.
 This folder will be the folder referred to as `<DATA_DIR>` in this guide.
 
-2. Extract the necessary optical and IMU sensor data from the proprietary data formats.
-Example processing scripts for doing this will be added soon.
+2. The `preprocess` folder contains a Matlab script which can be used to extract the IMU orientation data into a format that OpenSim can use. Remember to change the directories at the top of the script to your own directories.
+
+3. The optical sensor data can be extracted using the `app/processBulkC3D` script. This will extract `.trc` files from the specialty Vicon format.
 
 ## Repository Organization
 
@@ -22,8 +23,8 @@ Example processing scripts for doing this will be added soon.
 
 ## Example Trial Processing
 
-To run Cmake for the project
-```cmake
+To run CMake for the project
+```bash
 cmake -B build .
 cd build
 make -j$(nproc)
