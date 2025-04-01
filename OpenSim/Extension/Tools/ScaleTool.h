@@ -31,7 +31,7 @@
 #include <OpenSim/Common/PropertyDbl.h>
 #include "ModelScaler.h"
 #include <OpenSim/Tools/MarkerPlacer.h>
-#include <OpenSim/Extension/Tools/GenericModelMaker.h>
+#include <OpenSim/Tools/GenericModelMaker.h>
 
 namespace OpenSim {
 

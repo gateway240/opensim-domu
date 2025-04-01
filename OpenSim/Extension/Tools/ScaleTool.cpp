@@ -27,7 +27,7 @@
 #include "ScaleTool.h"
 #include <OpenSim/Common/IO.h>
 #include <OpenSim/Simulation/Model/Model.h>
-#include <OpenSim/Extension/Tools/GenericModelMaker.h>
+#include <OpenSim/Tools/GenericModelMaker.h>
 
 //=============================================================================
 // STATICS

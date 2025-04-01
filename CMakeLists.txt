@@ -90,7 +90,6 @@ set (Plugin_OpenSim_Tools_HEADERS
                         OpenSim/Extension/Tools/RegisterTypes_osimTools.h
                         OpenSim/Extension/Tools/osimTools.h
                         OpenSim/Extension/Tools/DistanceInverseKinematicsTool.h
-                        OpenSim/Extension/Tools/GenericModelMaker.h
                         OpenSim/Extension/Tools/MarkerPair.h
                         OpenSim/Extension/Tools/MarkerPairSet.h
                         OpenSim/Extension/Tools/Measurement.h
@@ -104,7 +103,6 @@ set (Plugin_OpenSim_Tools_SOURCES
                         OpenSim/Extension/Tools/osimToolsDLL.cpp
                         OpenSim/Extension/Tools/RegisterTypes_osimTools.cpp
                         OpenSim/Extension/Tools/DistanceInverseKinematicsTool.cpp
-                        OpenSim/Extension/Tools/GenericModelMaker.cpp
                         OpenSim/Extension/Tools/MarkerPair.cpp
                         OpenSim/Extension/Tools/MarkerPairSet.cpp
                         OpenSim/Extension/Tools/Measurement.cpp
