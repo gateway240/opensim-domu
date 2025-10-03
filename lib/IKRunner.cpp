@@ -529,8 +529,7 @@ void domuIK(const std::filesystem::path &file,
 
 
       // This is the rotation for the kuopio gait dataset
-      const SimTK::Vec3 rotations(-SimTK::Pi / 2, 0, 0);
-      distanceIk.set_sensor_to_opensim_rotations(rotations);
+      distanceIk.set_sensor_to_opensim_rotations(imu_rotations);
       distanceIk.set_model_file(modelSourcePath.string());
       distanceIk.set_distances_file(distance_fk_output_file);
       distanceIk.set_orientations_file(orientation_fk_output_file);
