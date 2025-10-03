@@ -113,8 +113,8 @@ int main(int argc, char *argv[]) {
 
     auto end = std::chrono::steady_clock::now();
     std::string runtime_str = time_difference_in_HH_MM_SS_MMM(begin, end);
-    std::cout << "Runtime = " << runtime_str << " [h:m:s.ms]" << std::endl;
-    std::cout << "Finished Running with Status: " << status
+    std::cout << "Single Trial Runtime = " << runtime_str << " [h:m:s.ms]" << std::endl;
+    std::cout << "Finished Running Single Trial with Status: " << status
               << " and message: \n"
               << message << std::endl;
     return status;

@@ -394,8 +394,12 @@ int main(int argc, char *argv[]) {
             << myParams.trial << " "
             << myParams.startTime << " "
             << myParams.endTime;
-        std::cout << "calling: " << cmd.str() << std::endl;
+        // std::cout << "calling: " << cmd.str() << std::endl;
         auto startProcess = std::chrono::steady_clock::now();
+        // This is a shim since OpenSim has too many memory leaks
+        // If the process function runs long the memory bloat accumulates and
+        // the process gets terminated by the OS
+        // This solves it by creating a sub process for each running task
         int status = std::system(cmd.str().c_str());
         // This can be re-enabled when OpenSim memory leaks are fixed
         // int status = process(myParams, message);
@@ -416,8 +420,8 @@ int main(int argc, char *argv[]) {
 
   auto end = std::chrono::steady_clock::now();
   std::string runtime_str = time_difference_in_HH_MM_SS_MMM(begin, end);
-  sync_out.println("Runtime = ", runtime_str, " [h:m:s.ms]");
-  sync_out.println("Finished Running without Problems!");
+  sync_out.println("Bulk Trials Total Runtime = ", runtime_str, " [h:m:s.ms]");
+  sync_out.println("Completed Bulk Trials!");
   // std::cout << "Runtime = " << runtime_str << " [h:m:s.ms]" << std::endl;
   // std::cout << "Finished Running without Error!" << std::endl;
   return 0;
