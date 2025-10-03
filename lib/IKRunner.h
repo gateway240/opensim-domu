@@ -39,9 +39,9 @@ const std::string sep = "_";
 
 // Rotation from marker space to OpenSim space (y is up)
 // This is the rotation for the kuopio gait dataset
-
-const SimTK::Vec3 rotations(-SimTK::Pi / 2, 0, 0);
-
+// Markers and IMUs need to be rotated differently --> CHECK BOTH!
+const SimTK::Vec3 marker_rotations(-SimTK::Pi / 2, 0, 0);
+const SimTK::Vec3 imu_rotations(0, 0, 0);
 // Function signatures
 std::string scaleModel(const std::filesystem::path &calibFilePath,
                        const std::filesystem::path &markerSetPath,

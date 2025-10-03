@@ -18,8 +18,8 @@ std::string scaleModel(const std::filesystem::path &calibFilePath,
     OpenSim::TimeSeriesTableVec3 table{calibFilePath.string()};
 
     const SimTK::Rotation sensorToOpenSim = SimTK::Rotation(
-        SimTK::BodyOrSpaceType::SpaceRotationSequence, rotations[0],
-        SimTK::XAxis, rotations[1], SimTK::YAxis, rotations[2], SimTK::ZAxis);
+        SimTK::BodyOrSpaceType::SpaceRotationSequence, marker_rotations[0],
+        SimTK::XAxis, marker_rotations[1], SimTK::YAxis, marker_rotations[2], SimTK::ZAxis);
     rotateMarkerTable(table, sensorToOpenSim);
 
     // Get the filename without extension
@@ -192,9 +192,11 @@ std::string markerIK(const std::filesystem::path &file,
     OpenSim::TRCFileAdapter trcfileadapter{};
     OpenSim::TimeSeriesTableVec3 table{sourceTrcFile.string()};
 
+    // Rotation from marker space to OpenSim space (y is up)
+    // This is the rotation for the kuopio gait dataset
     const SimTK::Rotation sensorToOpenSim = SimTK::Rotation(
-        SimTK::BodyOrSpaceType::SpaceRotationSequence, rotations[0],
-        SimTK::XAxis, rotations[1], SimTK::YAxis, rotations[2], SimTK::ZAxis);
+        SimTK::BodyOrSpaceType::SpaceRotationSequence, marker_rotations[0],
+        SimTK::XAxis, marker_rotations[1], SimTK::YAxis, marker_rotations[2], SimTK::ZAxis);
     rotateMarkerTable(table, sensorToOpenSim);
 
     // Get the filename without extension
@@ -269,7 +271,7 @@ std::string imuPlacer(const std::filesystem::path &file,
       OpenSim::IMUPlacer imuPlacer;
       imuPlacer.set_base_imu_label("pelvis_imu");
       imuPlacer.set_base_heading_axis("-z");
-      imuPlacer.set_sensor_to_opensim_rotations(rotations);
+      imuPlacer.set_sensor_to_opensim_rotations(imu_rotations);
       imuPlacer.set_orientation_file_for_calibration(file.string());
       imuPlacer.set_model_file(modelSourcePath.string());
 
@@ -332,8 +334,7 @@ void imuIK(const std::filesystem::path &file,
       imuIk.set_time_range(timeRange);
 
       // This is the rotation for the kuopio gait dataset
-      const SimTK::Vec3 rotations(-SimTK::Pi / 2, 0, 0);
-      imuIk.set_sensor_to_opensim_rotations(rotations);
+      imuIk.set_sensor_to_opensim_rotations(imu_rotations);
       imuIk.set_model_file(modelSourcePath.string());
       imuIk.set_orientations_file(file.string());
       imuIk.set_results_directory(resultDir);
