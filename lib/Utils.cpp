@@ -173,8 +173,8 @@ void findStartEndTimeBasedOnGrf(OpenSim::TimeSeriesTable &table,
   startTime = timeVec[extendedStart];
   endTime = timeVec[extendedEnd];
 
-  std::cout << "Detected GRF active window from time: " << startTime << " to "
-            << endTime << std::endl;
+  // std::cout << "Detected GRF active window from time: " << startTime << " to "
+  //           << endTime << std::endl;
 }
 
 void findStartEndTimeBasedOnNaN(OpenSim::TimeSeriesTableVec3 &table,

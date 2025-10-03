@@ -8,11 +8,22 @@ set(PLUGIN_NAME "osimDOMUPlugin"
 # Set for C++20 language features.
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -march=native")
-set(GCC_OPT_ENABLE "-funroll-loops")
+
 
 # generation compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Leak Checking in Debug
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    message(STATUS "Enabling AddressSanitizer for Debug build")
+    set(SANITIZE_FLAGS "-fsanitize=address -g -O1")
+
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SANITIZE_FLAGS}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${SANITIZE_FLAGS}")
+else() # Release and optimized build flags
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -march=native")
+    set(GCC_OPT_ENABLE "-funroll-loops")
+endif()
 
 # Find and hook up to OpenSim.
 # ----------------------------
@@ -169,9 +180,6 @@ CPMAddPackage("gh:bshoshany/thread-pool@5.0.0")
 add_library(BS_thread_pool INTERFACE)
 target_include_directories(BS_thread_pool INTERFACE ${${CPM_LAST_PACKAGE_NAME}_SOURCE_DIR}/include)
 
-# Required for std::exec::par 
-CPMAddPackage("gh:uxlfoundation/oneTBB@2022.2.0")
-
 # Data files
 set(DATA_DIR "${CMAKE_SOURCE_DIR}/data")
 set(DESTINATION_BIN_FOLDER "${CMAKE_BINARY_DIR}/bin")
@@ -195,6 +203,6 @@ foreach( sourcefile ${APP_SOURCES} )
     get_filename_component( name ${sourcefile} NAME_WE )
     add_executable( ${name} ${sourcefile} )
     # Make sure YourLib is linked to each app
-    target_link_libraries( ${name} ${PLUGIN_NAME} BS_thread_pool TBB::tbb)
+    target_link_libraries( ${name} ${PLUGIN_NAME} BS_thread_pool)
     add_dependencies(${name} symlink_data)
 endforeach( sourcefile ${APP_SOURCES} )

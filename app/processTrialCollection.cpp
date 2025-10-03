@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <chrono>
-#include <execution>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -8,6 +7,9 @@
 #include <regex>
 #include <unordered_map>
 #include <vector>
+
+// Thread Pool
+#include "BS_thread_pool.hpp" // BS::synced_stream, BS::thread_pool
 
 #include "Utils.h"
 typedef struct {
@@ -145,16 +147,6 @@ void processGroup(
   if (group.filePaths.size() >= 2) {
     group.opticalAndMarkers = true;
   }
-
-  // Progress
-  std::ostringstream oss;
-  oss << "Participant: " << group.participant << ", Gait: " << group.gait
-      << ", Trial: " << group.trial << ", File Paths: [";
-  for (const auto &filePath : group.filePaths) {
-    oss << filePath.second << ", ";
-  }
-  oss << "]";
-  std::cout << oss.str() << std::endl;
 }
 
 int main(int argc, char *argv[]) {
@@ -207,9 +199,16 @@ int main(int argc, char *argv[]) {
               return a.trial < b.trial;
             });
 
+  BS::thread_pool pool;
   // Process all files
-  std::for_each(std::execution::par_unseq, groupedFiles.begin(),
-                groupedFiles.end(), processGroup);
+  for (auto &group : groupedFiles) {
+    std::cout << "Participant: " << group.participant
+              << ", Gait: " << group.gait << ", Trial: " << group.trial << std::endl;
+     pool.detach_task([&group] {
+            processGroup(group);
+          });
+  }
+  pool.wait();
 
   // Write the grouped files to a CSV file
   // Overwrite if file already exists

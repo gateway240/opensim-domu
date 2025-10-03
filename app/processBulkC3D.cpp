@@ -27,9 +27,7 @@
 #include <OpenSim/Common/TRCFileAdapter.h>
 
 #include <chrono> // for std::chrono functions
-#include <clocale>
 #include <filesystem>
-#include <fstream>
 #include <iostream>
 #include <string>
 #include <thread>

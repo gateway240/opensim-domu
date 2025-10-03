@@ -25,11 +25,22 @@ This folder will be the folder referred to as `<DATA_DIR>` in this guide.
 
 To run CMake for the project
 ```bash
-cmake -B build .
+cmake -DCMAKE_BUILD_TYPE=Release -B build .
 cd build
 make -j$(nproc)
 ```
 
+## Leak check
+Build in debug mode
+```bash
+cmake -DCMAKE_BUILD_TYPE=Debug -B build .
+cd build
+make -j$(nproc)
+# Important so leak check reults are output
+export ASAN_OPTIONS=detect_leaks=1
+```
+
+## Code Examples
 The code below shows some examples for running trial processing. Execute from the `build` directory.
 ```bash
 ./bin/processSingleTrial ~/data/kuopio-gait-dataset-processed-v2 ./bin/gait2392_thelen2003muscle.osim ~/data/alex-random-test 09 l_comf 01 3.5 4.5
