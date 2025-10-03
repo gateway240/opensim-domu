@@ -235,11 +235,13 @@ bool ModelScaler::processModel(Model* aModel, const string& aPathToSubject,
      * Initialize all factors to 1.0.
      */
     for (const auto& segment : aModel->getComponentList<PhysicalFrame>()) {
-        Scale* segmentScale = new Scale();
+        auto segmentScale = std::make_unique<Scale>();
         segmentScale->setSegmentName(segment.getName());
         segmentScale->setScaleFactors(unity);
         segmentScale->setApply(true);
-        theScaleSet.adoptAndAppend(segmentScale);
+
+        theScaleSet.adoptAndAppend(segmentScale.get());  // pass raw pointer
+        segmentScale.release();  // release ownership so it is managed by theScaleSet now
     }
 
     SimTK::State& s = aModel->initSystem();

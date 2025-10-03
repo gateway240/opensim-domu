@@ -17,6 +17,10 @@
 // const double rms = 0.025;
 const double rms = 0.0;
 
+const std::string single_trial_exec = 
+    (std::filesystem::current_path() / "bin" / "runSingleTrial").string();
+
+
 const std::vector<std::string> orientationWeightSets = {
     // All IMUs regular
     std::filesystem::absolute("bin/setup_OrientationWeightSet_downweighted.xml")
@@ -87,7 +91,7 @@ struct ParticipantData {
   bool active;
 };
 
-const std::string all_trials_path = "bin/all-trials.csv";
+const std::string all_trials_path = "bin/all-trials-subset.csv";
 
 BS::synced_stream sync_out(std::cout);
 
@@ -379,8 +383,22 @@ int main(int argc, char *argv[]) {
         myParams.startTime = startTime;
         myParams.endTime = endTime;
         std::string message;
+
+        std::stringstream cmd;
+        cmd << single_trial_exec << " "
+            << myParams.basePath << " "
+            << myParams.modelPath << " "
+            << myParams.outputPath << " "
+            << myParams.participant << " "
+            << myParams.gait << " "
+            << myParams.trial << " "
+            << myParams.startTime << " "
+            << myParams.endTime;
+        std::cout << "calling: " << cmd.str() << std::endl;
         auto startProcess = std::chrono::steady_clock::now();
-        int status = process(myParams, message);
+        int status = std::system(cmd.str().c_str());
+        // This can be re-enabled when OpenSim memory leaks are fixed
+        // int status = process(myParams, message);
         auto endProcess = std::chrono::steady_clock::now();
         // Calculate the duration between the two time points
         auto duration =

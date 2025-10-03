@@ -172,9 +172,9 @@ void DistanceInverseKinematicsTool::runInverseKinematicsWithDistancesFromFile(
   SimTK::Array_<double> weights;
   dRefs.getWeights(s0, weights);
 
-  for (unsigned int i = 0; i < names.size(); ++i) {
-      std::cout << names[i] << ": " << weights[i] << std::endl;
-  }
+  // for (unsigned int i = 0; i < names.size(); ++i) {
+  //     std::cout << names[i] << ": " << weights[i] << std::endl;
+  // }
 
   AnalysisSet &analysisSet = model.updAnalysisSet();
   analysisSet.begin(s0);

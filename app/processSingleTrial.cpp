@@ -10,11 +10,12 @@
 const double rms = 0.0;
 
 const std::vector<std::string> orientationWeightSets = {
-    std::filesystem::absolute("bin/setup_OrientationWeightSet_uniform.xml")
+    // All IMUs regular
+    std::filesystem::absolute("bin/setup_OrientationWeightSet_downweighted.xml")
         .string(),
-    // OpenSim::OrientationWeightSet("bin/setup_OrientationWeightSet_uniform_drop_l_calcn.xml"),
+    // Drop Femur
     std::filesystem::absolute(
-        "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml")
+        "bin/setup_OrientationWeightSet_downweighted_pelvis_tibia_calcn.xml")
         .string(),
     // OpenSim::OrientationWeightSet(
     //     "setup_OrientationWeightSet_pelvis_tibia.xml"),
@@ -25,24 +26,30 @@ const std::vector<std::string> orientationWeightSets = {
     //     "setup_OrientationWeightSet_tibia_calcn.xml")
 };
 const std::vector<std::pair<std::string, std::string>> distanceWeightSets = {
-    {std::filesystem::absolute("bin/setup_OrientationWeightSet_uniform.xml")
+    // All DOMU Regular
+    {std::filesystem::absolute("bin/setup_OrientationWeightSet_downweighted.xml")
          .string(),
      std::filesystem::absolute("bin/setup_DistanceWeightSet_all_uniform.xml")
          .string()},
+    // Drop Femur
     {std::filesystem::absolute(
-         "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml")
+         "bin/setup_OrientationWeightSet_downweighted_pelvis_tibia_calcn.xml")
          .string(),
      std::filesystem::absolute(
          "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_uniform.xml")
          .string()},
-    // {OpenSim::OrientationWeightSet(
+    // {std::filesystem::absolute(
     //      "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml"),
-    //  OpenSim::DistanceWeightSet(
-    //      "bin/setup_DistanceWeightSet_all_uniform_plus_torso.xml")},
-    // OpenSim::DistanceWeightSet(
-    //     "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_special.xml"),
-    // OpenSim::DistanceWeightSet(
-    //     "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_special_2.xml"),
+    //  std::filesystem::absolute(
+    //      "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_plus_torso.xml")},
+    // {std::filesystem::absolute(
+    //      "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml"),
+    //  std::filesystem::absolute(
+    //      "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_special.xml")},
+    // {std::filesystem::absolute(
+    //      "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml"),
+    //  std::filesystem::absolute(
+    //      "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_special_2.xml")},
     // OpenSim::OrientationWeightSet(
     //     "setup_OrientationWeightSet_pelvis_tibia.xml"),
     // OpenSim::OrientationWeightSet(
@@ -128,5 +135,5 @@ int main(int argc, char *argv[]) {
   std::cout << "Runtime = " << runtime_str << " [h:m:s.ms]" << std::endl;
   std::cout << "Finished Running with Status: " << status << " and message: \n"
             << message << std::endl;
-  return 0;
+  return status;
 }

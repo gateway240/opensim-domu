@@ -37,7 +37,7 @@ cmake -DCMAKE_BUILD_TYPE=Debug -B build .
 cd build
 make -j$(nproc)
 # Important so leak check reults are output
-export ASAN_OPTIONS=detect_leaks=1
+export ASAN_OPTIONS=log_path=asan-leak.log:verbosity=1:detect_leaks=1
 ```
 
 ## Code Examples
@@ -49,5 +49,6 @@ The code below shows some examples for running trial processing. Execute from th
 
 ./bin/processTrialCollection ~/data/kuopio-gait-dataset-processed-v2 ../data/all-trials.csv
 
-./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ~/data/kg-all-trials-v1
+./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ~/data/kg-alex-process-testing
+./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ~/data/kg-all-trials-oct-3-2025
 ```

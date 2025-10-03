@@ -527,12 +527,11 @@ void domuIK(const std::filesystem::path &file,
       distanceIk.set_accuracy(9.9999999999999995e-07);
       distanceIk.set_time_range(timeRange);
 
-      OpenSim::Model model = OpenSim::Model(modelSourcePath.string());
 
       // This is the rotation for the kuopio gait dataset
       const SimTK::Vec3 rotations(-SimTK::Pi / 2, 0, 0);
       distanceIk.set_sensor_to_opensim_rotations(rotations);
-      distanceIk.setModel(model);
+      distanceIk.set_model_file(modelSourcePath.string());
       distanceIk.set_distances_file(distance_fk_output_file);
       distanceIk.set_orientations_file(orientation_fk_output_file);
       distanceIk.set_results_directory(resultDir);
