@@ -91,8 +91,6 @@ struct ParticipantData {
   bool active;
 };
 
-const std::string all_trials_path = "bin/all-trials-subset.csv";
-
 BS::synced_stream sync_out(std::cout);
 
 // Helper function to trim quotes from a string
@@ -227,9 +225,9 @@ int main(int argc, char *argv[]) {
   auto begin = std::chrono::steady_clock::now();
 
   // Parameters params;
-  if (argc < 4) {
+  if (argc < 5) {
     std::cerr << "Usage: " << argv[0]
-              << " <base_path> <model_path> <output_path> " << std::endl;
+              << " <base_path> <model_path> <trial_sheet> <output_path> " << std::endl;
     return 1;
   }
   const OpenSim::DistanceDataReaderSettings distanceDataReaderSettings(
@@ -237,7 +235,8 @@ int main(int argc, char *argv[]) {
 
   const std::string basePath = argv[1];
   const std::string modelPath = std::filesystem::absolute(argv[2]);
-  const std::filesystem::path outputPath = argv[3];
+  const std::filesystem::path  all_trials_path = argv[3];
+  const std::filesystem::path outputPath = argv[4];
   const auto markerSetPath = std::filesystem::absolute(fileNameMarkerSet);
   const auto setupScalePath = std::filesystem::absolute(fileNameSetupScale);
   const auto markerIKPath = std::filesystem::absolute(fileNameSetupMarkerIK);
@@ -280,7 +279,7 @@ int main(int argc, char *argv[]) {
   BS::thread_pool pool(num_threads);
   sync_out.println("Thread Pool num threads: ", pool.get_thread_count());
 
-  std::vector<ParticipantData> data = readCSV(all_trials_path);
+  std::vector<ParticipantData> data = readCSV(all_trials_path.string());
   // Create a new vector for active participants
   std::vector<ParticipantData> activeParticipants;
   // Populate the new vector with only active participants

@@ -49,6 +49,6 @@ The code below shows some examples for running trial processing. Execute from th
 
 ./bin/processTrialCollection ~/data/kuopio-gait-dataset-processed-v2 ../data/all-trials.csv
 
-./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ~/data/kg-alex-process-testing
-./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ~/data/kg-all-trials-oct-3-2025
+./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ./bin/all-trials-subset.csv ~/data/kg-alex-process-testing
+./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ./bin/all-trials.csv ~/data/kg-all-trials-oct-3-2025
 ```
