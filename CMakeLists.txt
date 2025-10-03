@@ -11,12 +11,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -march=native")
 set(GCC_OPT_ENABLE "-funroll-loops")
 
+# generation compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Find and hook up to OpenSim.
 # ----------------------------
-# CPMAddPackage("gh:catchorg/Catch2#v3.8.0")
-# CPMAddPackage("gh:casadi/casadi#3.7.0")
-# CPMAddPackage("gh:simbody/simbody#Simbody-3.7")
-# CPMAddPackage("gh:opensim-org/opensim-core#aa40605bae4ecb81c0bae23638f2cd90f20202e5")
 set(OpenSim_DIR "~/opensim-core/cmake")
 find_package(OpenSim REQUIRED PATHS "${OPENSIM_INSTALL_DIR}")
 
@@ -170,35 +169,32 @@ CPMAddPackage("gh:bshoshany/thread-pool@5.0.0")
 add_library(BS_thread_pool INTERFACE)
 target_include_directories(BS_thread_pool INTERFACE ${${CPM_LAST_PACKAGE_NAME}_SOURCE_DIR}/include)
 
+# Required for std::exec::par 
+CPMAddPackage("gh:uxlfoundation/oneTBB@2022.2.0")
 
-# Build Demo Main
-# If necessary, use the RELATIVE flag, otherwise each source file may be listed
-# with full pathname. RELATIVE may makes it easier to extract an executable name
-# automatically.
-# file( GLOB APP_SOURCES RELATIVE app/*.cxx )
-file( GLOB APP_SOURCES app/*.cpp )
-foreach( testsourcefile ${APP_SOURCES} )
-    # Cut off the file extension and directory path
-    get_filename_component( testname ${testsourcefile} NAME_WE )
-    add_executable( ${testname} ${testsourcefile} )
-    # Make sure YourLib is linked to each app
-    target_link_libraries( ${testname} ${PLUGIN_NAME} BS_thread_pool )
+# Data files
+set(DATA_DIR "${CMAKE_SOURCE_DIR}/data")
+set(DESTINATION_BIN_FOLDER "${CMAKE_BINARY_DIR}/bin")
+file(GLOB DATA_FILES "${DATA_DIR}/*")
+add_custom_target(symlink_data ALL)
 
-endforeach( testsourcefile ${APP_SOURCES} )
-
-# Populate resources to proper directory with symlinks
-# Collect all files in the source directory
-set(SOURCE_DATA_FOLDER "${CMAKE_SOURCE_DIR}/data")
-file(GLOB DATA_FILES "${SOURCE_DATA_FOLDER}/*")
-# Loop through each file and create a symlink in the build directory
-foreach(SOURCE_FILE ${DATA_FILES})
-    # Get the filename from the full path
-    get_filename_component(FILE_NAME ${SOURCE_FILE} NAME)
-
-    # Define the symlink path
-    set(LINK_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${FILE_NAME}")
-
-    file(CREATE_LINK ${SOURCE_FILE} ${LINK_PATH})
-
-    message(STATUS "Created symlink: ${LINK_PATH} -> ${SOURCE_FILE}")
+foreach(datafile ${DATA_FILES})
+    get_filename_component(datafilename ${datafile} NAME)
+    add_custom_command(
+        TARGET symlink_data
+        PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E create_symlink
+                ${datafile} ${DESTINATION_BIN_FOLDER}/${datafilename}
+        COMMENT "Creating symlink for ${datafilename}"
+    )
 endforeach()
+# Build executables
+file( GLOB APP_SOURCES app/*.cpp )
+foreach( sourcefile ${APP_SOURCES} )
+    # Cut off the file extension and directory path
+    get_filename_component( name ${sourcefile} NAME_WE )
+    add_executable( ${name} ${sourcefile} )
+    # Make sure YourLib is linked to each app
+    target_link_libraries( ${name} ${PLUGIN_NAME} BS_thread_pool TBB::tbb)
+    add_dependencies(${name} symlink_data)
+endforeach( sourcefile ${APP_SOURCES} )

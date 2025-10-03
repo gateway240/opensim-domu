@@ -54,9 +54,9 @@ std::string scaleParticipant(const ScaleParameters &params) {
 
   // Create configuration for running IK
   // OpenSim::IO::SetDigitsPad(4);
-  const std::filesystem::path sourceDir = params.basePath / params.participant;
+  const std::filesystem::path sourceDir = params.basePath / (params.participant) / "mocap";
   const std::filesystem::path calibFile =
-      sourceDir / opticalDir / fileNameCalibration;
+      sourceDir / params.fileNameCalibration;
   std::filesystem::path absoluteModelPath = params.modelPath;
   std::filesystem::path absoluteMarkerSetPath = params.markerSetPath;
 
@@ -113,7 +113,7 @@ int process(const Parameters &params, std::string &message) {
     const std::filesystem::path sourceDir =
         params.basePath / params.participant;
 
-    // 1. Scale Model
+    // 1. Scale Model - already happened
 
     // 2. Marker IK
     std::filesystem::path absoluteMarkerIKSetup = params.markerIKPath;
@@ -147,7 +147,27 @@ int process(const Parameters &params, std::string &message) {
     std::string orientationModelFile =
         imuPlacer(orientationFilePath, markerFilePath, calibratedModelPath,
                   orientationResultsDir);
-    // 4. IMU IK
+    // 4. DOMU FK
+    std::filesystem::path domuResultsDir = resultsDir / domuDir;
+    createDirectory(domuResultsDir);
+    const std::filesystem::path tableFileDir =
+        domuFK(markerFilePath, orientationModelFile, domuResultsDir,
+                params.distanceDataReaderSettings, timeRange);
+    const std::filesystem::path domuFileName = tableFileDir / "all_distances.sto";
+    const std::filesystem::path imuFileName = tableFileDir / "test_distance_analysis_orientations.sto";
+
+    // 5. Adding Noise
+    std::filesystem::path tablePath = domuFileName;
+    OpenSim::TimeSeriesTable table(tablePath);
+    addNoiseToTable(table, params.domuNoise);
+    const std::filesystem::path distance_fk_output_file_noise =
+        tablePath.parent_path() / ("all_distances_with_noise" + sep +
+                                   std::to_string(params.domuNoise) + ".sto");
+    const std::filesystem::path orientation_fk_output_file_noise = imuFileName;
+    OpenSim::STOFileAdapter_<double>::write(
+        table, distance_fk_output_file_noise.string());
+    
+    // 6. IMU IK
     const std::filesystem::path orientationModelPath =
         orientationResultsDir / orientationModelFile;
     const std::vector<std::string> imus_to_delete = {"femur_r_imu",
@@ -160,33 +180,14 @@ int process(const Parameters &params, std::string &message) {
       if (oWeights.getName().find("pelvis_tibia_calcn") != std::string::npos) {
         imuModelPath = orientationModelDeletedImusPath;
       }
-      imuIK(orientationFilePath, imuModelPath, orientationResultsDir, oWeights,
+      imuIK(imuFileName, imuModelPath, orientationResultsDir, oWeights,
             timeRange);
     }
-
-    // 5. DOMU FK
-    std::filesystem::path domuResultsDir = resultsDir / domuDir;
-    createDirectory(domuResultsDir);
-    std::string tableFileName =
-        domuFK(markerFilePath, orientationModelFile, domuResultsDir,
-               params.distanceDataReaderSettings, timeRange);
-
-    // 6. Adding Noise
-    std::filesystem::path tablePath = tableFileName;
-    OpenSim::TimeSeriesTable table(tableFileName);
-    addNoiseToTable(table, params.domuNoise);
-    const std::filesystem::path distance_fk_output_file_noise =
-        tablePath.parent_path() / ("all_distances_with_noise" + sep +
-                                   std::to_string(params.domuNoise) + ".sto");
-    const std::filesystem::path orientation_fk_output_file_noise =
-        tablePath.parent_path() / ("test_distance_analysis_orientations.sto");
-    OpenSim::STOFileAdapter_<double>::write(
-        table, distance_fk_output_file_noise.string());
 
     // 7. DOMU IK
     // const auto &weight = params.distanceWeightSets[1];
     for (const auto &weight : params.distanceWeightSets) {
-      std::string domuOrientationPath = orientationFilePath;
+      std::string domuOrientationPath = imuFileName;
       std::filesystem::path domuModelPath = orientationModelPath;
       if (weight.first.getName().find("pelvis_tibia_calcn") !=
               std::string::npos ||

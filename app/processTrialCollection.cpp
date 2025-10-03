@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <chrono>
+#include <execution>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -8,10 +9,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <OpenSim/Common/TRCFileAdapter.h>
-
 #include "Utils.h"
-
 typedef struct {
   std::string participant;
   std::string gait;
@@ -53,7 +51,7 @@ std::optional<std::smatch> matchesPattern(const std::string &filename) {
   // Define the regex pattern for "<r or l>_<comf fast or slow>_<two digit
   // number>"
   std::regex pattern(
-      R"(.*([rl]_(?:fast|slow|comf))_(\d{2})_(markers|orientations).(trc|sto))");
+      R"(.*([rl]_(?:fast|slow|comf))_(\d{2})_(markers|grfs|orientations).(trc|sto))");
   std::smatch match;
   if (std::regex_search(filename, match, pattern)) {
     return match; // Return the matched groups
@@ -131,6 +129,34 @@ void groupFilteredFiles(const std::vector<FilteredFile> &filteredFiles,
   }
 }
 
+void processGroup(
+    GroupedFiles &group) { // Replace GroupType with your actual type
+  for (const auto &filePath : group.filePaths) {
+    if (filePath.first == "grfs") {
+      double startTime;
+      double endTime;
+      OpenSim::TimeSeriesTable grfTable{filePath.second.string()};
+      findStartEndTimeBasedOnGrf(grfTable, startTime, endTime);
+      group.startTime = startTime;
+      group.endTime = endTime;
+    }
+  }
+
+  if (group.filePaths.size() >= 2) {
+    group.opticalAndMarkers = true;
+  }
+
+  // Progress
+  std::ostringstream oss;
+  oss << "Participant: " << group.participant << ", Gait: " << group.gait
+      << ", Trial: " << group.trial << ", File Paths: [";
+  for (const auto &filePath : group.filePaths) {
+    oss << filePath.second << ", ";
+  }
+  oss << "]";
+  std::cout << oss.str() << std::endl;
+}
+
 int main(int argc, char *argv[]) {
   auto begin = std::chrono::steady_clock::now();
 
@@ -139,7 +165,6 @@ int main(int argc, char *argv[]) {
               << std::endl;
     return 1;
   }
-
   std::filesystem::path directoryPath = argv[1];
   if (!std::filesystem::exists(directoryPath) ||
       !std::filesystem::is_directory(directoryPath)) {
@@ -182,32 +207,9 @@ int main(int argc, char *argv[]) {
               return a.trial < b.trial;
             });
 
-  // Print the grouped files for verification
-  for (auto &group : groupedFiles) {
-    std::cout << "Participant: " << group.participant
-              << ", Gait: " << group.gait << ", Trial: " << group.trial
-              << ", File Paths: [";
-    for (const auto &filePath : group.filePaths) {
-      if (filePath.first == "markers") {
-        double startTime;
-        double endTime;
-        OpenSim::TRCFileAdapter trcfileadapter{};
-        OpenSim::TimeSeriesTableVec3 markerTable{filePath.second.string()};
-        findStartEndTimeBasedOnNaN(markerTable, startTime, endTime);
-        // Add padding
-        // const double timePadding = 0.5;
-        // startTime += timePadding;
-        // endTime -= timePadding;
-        group.startTime = startTime;
-        group.endTime = endTime;
-      }
-      std::cout << filePath.second << ", ";
-    }
-    if (group.filePaths.size() == 2) {
-      group.opticalAndMarkers = true;
-    }
-    std::cout << "]" << std::endl;
-  }
+  // Process all files
+  std::for_each(std::execution::par_unseq, groupedFiles.begin(),
+                groupedFiles.end(), processGroup);
 
   // Write the grouped files to a CSV file
   // Overwrite if file already exists
@@ -222,9 +224,10 @@ int main(int argc, char *argv[]) {
 
   // Write the data
   for (const auto &group : groupedFiles) {
+    // This needs to be quoted so "01" doesn't become 1 in a spreadsheet program
     csvFile << "\"" << group.participant << "\"," << group.gait << ",\""
             << group.trial << "\"," << group.startTime << "," << group.endTime
-            << "," << group.opticalAndMarkers << "," << std::to_string(false)
+            << "," << group.opticalAndMarkers << "," << std::to_string(true)
             << "\n";
   }
 

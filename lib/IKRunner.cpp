@@ -1,6 +1,7 @@
 #include <algorithm> // For std::sort
 
 #include "IKRunner.h"
+#include "Utils.h"
 
 std::string scaleModel(const std::filesystem::path &calibFilePath,
                        const std::filesystem::path &markerSetPath,
@@ -8,7 +9,7 @@ std::string scaleModel(const std::filesystem::path &calibFilePath,
                        const std::filesystem::path &modelPath,
                        const std::filesystem::path &resultDir,
                        const Participant participant) {
-  std::cout << "---Starting Processing: " << calibFilePath
+  std::cout << "---Starting Scaling: " << calibFilePath
             << " Participant: " << participant.ID << " Model: " << modelPath
             << std::endl;
   try {
@@ -19,7 +20,7 @@ std::string scaleModel(const std::filesystem::path &calibFilePath,
     const SimTK::Rotation sensorToOpenSim = SimTK::Rotation(
         SimTK::BodyOrSpaceType::SpaceRotationSequence, rotations[0],
         SimTK::XAxis, rotations[1], SimTK::YAxis, rotations[2], SimTK::ZAxis);
-    // rotateMarkerTable(table, sensorToOpenSim);
+    rotateMarkerTable(table, sensorToOpenSim);
 
     // Get the filename without extension
     const std::string rotatedCalibFilename = calibFilePath.stem().string() +
@@ -77,19 +78,35 @@ std::string scaleModel(const std::filesystem::path &calibFilePath,
       if (_measurementSet.get(j).getApply()) {
         OpenSim::Measurement measurement = _measurementSet.get(j);
         const std::string measurementName = measurement.getName();
-        if (measurementName == "pelvis") {
-          addDistanceMeasurement(j, measurement, participant.IAD);
-        } else if (measurementName == "thigh_r") {
-          addDistanceMeasurement(j, measurement,
-                                 participant.Right_thigh_length);
-        } else if (measurementName == "thigh_l") {
-          addDistanceMeasurement(j, measurement, participant.Left_thigh_length);
-        } else if (measurementName == "shank_r") {
-          addDistanceMeasurement(j, measurement,
-                                 participant.Right_shank_length);
-        } else if (measurementName == "shank_l") {
-          addDistanceMeasurement(j, measurement, participant.Left_shank_length);
-        }
+        // if (measurementName == "pelvis") {
+        //   addDistanceMeasurement(j, measurement, participant.IAD);
+        // } else if (measurementName == "humerus_r") {
+        //   addDistanceMeasurement(j, measurement,
+        //                          participant.humerus_length_right);
+        // } else if (measurementName == "humerus_l") {
+        //   addDistanceMeasurement(j, measurement,
+        //                          participant.humerus_length_left);
+        // } else if (measurementName == "forearm_r") {
+        //   addDistanceMeasurement(j, measurement,
+        //                          participant.forearm_length_right);
+        // } else if (measurementName == "forearm_l") {
+        //   addDistanceMeasurement(j, measurement,
+        //                          participant.forearm_length_left);
+        // } else if (measurementName == "thigh_r") {
+        //   addDistanceMeasurement(j, measurement,
+        //                          participant.Right_thigh_length);
+        // } else if (measurementName == "thigh_l") {
+        //   addDistanceMeasurement(j, measurement, participant.Left_thigh_length);
+        // } else if (measurementName == "shank_r") {
+        //   addDistanceMeasurement(j, measurement,
+        //                          participant.Right_shank_length);
+        // } else if (measurementName == "shank_l") {
+        //   addDistanceMeasurement(j, measurement, participant.Left_shank_length);
+        // } else if (measurementName == "foot_r") {
+        //   addDistanceMeasurement(j, measurement, participant.foot_length_right);
+        // } else if (measurementName == "foot_l") {
+        //   addDistanceMeasurement(j, measurement, participant.foot_length_left);
+        // }
       }
     }
 
@@ -213,6 +230,7 @@ std::string markerIK(const std::filesystem::path &file,
       ik.set_model_file(modelSourcePath.string());
 
       ik.set_marker_file(sourceTrcFile.string());
+      ik.setMarkerDataFileName(markerFileName);
       ik.set_output_motion_file(outputMotionFile.string());
 
       bool ikSuccess = false;
@@ -378,7 +396,7 @@ std::string domuFK(const std::filesystem::path &file,
       imuDataReporter.setName("IMUDataReporter_no_forces");
       imuDataReporter.set_compute_accelerations_without_forces(true);
       imuDataReporter.setInDegrees(true);
-      imuDataReporter.append_frame_paths("/bodyset/torso");
+      // imuDataReporter.append_frame_paths("/bodyset/torso");
       // imuDataReporter.append_frame_paths("/bodyset/head");
       analyzeIMU.updAnalysisSet().cloneAndAppend(imuDataReporter);
 
@@ -456,7 +474,7 @@ std::string domuFK(const std::filesystem::path &file,
       OpenSim::STOFileAdapter_<double>::write(table,
                                               distance_fk_output_path.string());
 
-      return distance_fk_output_path.string();
+      return analyze_tool_results_dir.string();
     } else {
       std::cout << "Model Path doesn't exist: " << modelSourcePath << std::endl;
     }

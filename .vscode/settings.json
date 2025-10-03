@@ -1,0 +1,11 @@
+{
+    "cSpell.enabled": true,
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "clangd.path": "clangd",
+    "clangd.checkUpdates": true,
+    "clangd.arguments": ["-log=verbose", 
+                         "-pretty", 
+                         "--background-index", 
+                         "--compile-commands-dir=./build"]
+
+}

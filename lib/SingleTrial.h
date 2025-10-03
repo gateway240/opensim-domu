@@ -1,8 +1,6 @@
 #ifndef SINGLE_TRIAL_H
 #define SINGLE_TRIAL_H
 #include <filesystem>
-#include <fstream>
-#include <iostream>
 #include <vector>
 
 #include "Participant.h"
@@ -34,6 +32,8 @@ typedef struct {
   std::filesystem::path setupScalePath;
   std::filesystem::path participantPath;
   std::string participant;
+  std::string fileNameCalibration = "calib_static_markers.trc";
+  Participant participantData;
 } ScaleParameters;
 
 std::string scaleParticipant(const ScaleParameters &params);

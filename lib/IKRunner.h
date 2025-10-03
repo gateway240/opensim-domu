@@ -1,12 +1,7 @@
 #ifndef IK_RUNNER_H
 #define IK_RUNNER_H
 
-#include <algorithm> // For std::find_if
-#include <chrono>    // for std::chrono functions
-#include <clocale>
 #include <filesystem>
-#include <iostream>
-#include <iterator> // For std::back_inserter
 #include <string>
 
 // OpenSim INCLUDES
@@ -30,10 +25,8 @@
 
 // Our Own Includes
 #include "Participant.h"
-#include "Utils.h"
 
 // In Model
-const std::string fileNameCalibration = "calib_static_markers.trc";
 const std::string imuDir = "imu_extracted";
 const std::string opticalDir = "mocap";
 const std::string domuDir = "domu";
@@ -46,7 +39,8 @@ const std::string sep = "_";
 
 // Rotation from marker space to OpenSim space (y is up)
 // This is the rotation for the kuopio gait dataset
-const SimTK::Vec3 rotations(-SimTK::Pi / 2, SimTK::Pi / 2, 0);
+
+const SimTK::Vec3 rotations(-SimTK::Pi / 2, 0, 0);
 
 // Function signatures
 std::string scaleModel(const std::filesystem::path &calibFilePath,

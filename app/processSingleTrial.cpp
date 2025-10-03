@@ -7,7 +7,7 @@
 #include "Utils.h"
 
 // How much noise to add
-const double rms = 0.025;
+const double rms = 0.0;
 
 const std::vector<std::string> orientationWeightSets = {
     std::filesystem::absolute("bin/setup_OrientationWeightSet_uniform.xml")
@@ -60,7 +60,7 @@ const std::string fileNameSetupIKTasks = "bin/kg_IK_Tasks_uniform.xml";
 const std::string fileNameSetupMarkerIK =
     "bin/setup_MarkerInverseKinematics.xml";
 const std::string fileNameDistanceDataReaderPath =
-    "bin/myDOMUMappingsSensor.xml";
+    "bin/myDOMUMappingsSensor_torso.xml";
 
 int main(int argc, char *argv[]) {
   auto begin = std::chrono::steady_clock::now();

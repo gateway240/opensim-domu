@@ -14,14 +14,16 @@
 #include "Utils.h"
 
 // How much noise to add
-const double rms = 0.025;
+// const double rms = 0.025;
+const double rms = 0.0;
 
 const std::vector<std::string> orientationWeightSets = {
-    std::filesystem::absolute("bin/setup_OrientationWeightSet_uniform.xml")
+    // All IMUs regular
+    std::filesystem::absolute("bin/setup_OrientationWeightSet_downweighted.xml")
         .string(),
-    // OpenSim::OrientationWeightSet("bin/setup_OrientationWeightSet_uniform_drop_l_calcn.xml"),
+    // Drop Femur
     std::filesystem::absolute(
-        "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml")
+        "bin/setup_OrientationWeightSet_downweighted_pelvis_tibia_calcn.xml")
         .string(),
     // OpenSim::OrientationWeightSet(
     //     "setup_OrientationWeightSet_pelvis_tibia.xml"),
@@ -32,12 +34,14 @@ const std::vector<std::string> orientationWeightSets = {
     //     "setup_OrientationWeightSet_tibia_calcn.xml")
 };
 const std::vector<std::pair<std::string, std::string>> distanceWeightSets = {
-    {std::filesystem::absolute("bin/setup_OrientationWeightSet_uniform.xml")
+    // All DOMU Regular
+    {std::filesystem::absolute("bin/setup_OrientationWeightSet_downweighted.xml")
          .string(),
      std::filesystem::absolute("bin/setup_DistanceWeightSet_all_uniform.xml")
          .string()},
+    // Drop Femur
     {std::filesystem::absolute(
-         "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml")
+         "bin/setup_OrientationWeightSet_downweighted_pelvis_tibia_calcn.xml")
          .string(),
      std::filesystem::absolute(
          "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_uniform.xml")
@@ -276,7 +280,7 @@ int main(int argc, char *argv[]) {
   // Create a new vector for active participants
   std::vector<ParticipantData> activeParticipants;
   // Populate the new vector with only active participants
-  const double minSampleLength = 2.0;
+  const double minSampleLength = 1.0;
   for (const auto &entry : data) {
     const bool sampleLongEnough =
         (entry.endTime - entry.startTime) >= minSampleLength;
@@ -288,6 +292,7 @@ int main(int argc, char *argv[]) {
   std::set<std::string> uniqueParticipantsSet;
   // Populate the set with participant names
   for (const auto &entry : activeParticipants) {
+    std::cout << entry.participant << std::endl;
     uniqueParticipantsSet.insert(entry.participant);
   }
 
@@ -368,9 +373,9 @@ int main(int argc, char *argv[]) {
         myParams.trial = entry.trial;
 
         // Add padding
-        const double timePadding = 0.5;
-        const double startTime = entry.startTime + timePadding;
-        const double endTime = entry.endTime - timePadding;
+        const double timePadding = 0.2;
+        const double startTime = entry.startTime - timePadding;
+        const double endTime = entry.endTime + timePadding;
         myParams.startTime = startTime;
         myParams.endTime = endTime;
         std::string message;
