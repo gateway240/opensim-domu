@@ -17,6 +17,7 @@
 #include <OpenSim/Tools/InverseKinematicsTool.h>
 
 #include <OpenSim/Extension/Analyses/DistanceKinematicsIMU.h>
+#include <OpenSim/Extension/Simulation/OpenSense/IMUPlacerExt.h>
 #include <OpenSim/Extension/Common/DistanceDataReader.h>
 #include <OpenSim/Extension/Common/DistanceDataReaderSettings.h>
 #include <OpenSim/Extension/Simulation/OpenSense/IMUPlacerExt.h>

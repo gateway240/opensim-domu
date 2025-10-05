@@ -24,11 +24,11 @@
 			</OrientationWeight>
 			<OrientationWeight name="calcn_r_imu">
 				<!--Orientation reference weight.-->
-				<weight>0.01</weight>
+				<weight>0.1</weight>
 			</OrientationWeight>
 			<OrientationWeight name="calcn_l_imu">
 				<!--Orientation reference weight.-->
-				<weight>0.01</weight>
+				<weight>0.1</weight>
 			</OrientationWeight>
 		</objects>
 	</OrientationWeightSet>

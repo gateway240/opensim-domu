@@ -1,6 +1,7 @@
 #include <algorithm> // For std::sort
 
 #include "IKRunner.h"
+#include "OpenSim/Extension/Simulation/OpenSense/IMUPlacerExt.h"
 #include "Utils.h"
 
 std::string scaleModel(const std::filesystem::path &calibFilePath,
@@ -287,7 +288,7 @@ std::string imuPlacer(const std::filesystem::path &file,
 
     if (std::filesystem::exists(modelSourcePath)) {
 
-      OpenSim::IMUPlacer imuPlacer;
+      OpenSim::IMUPlacerExt imuPlacer;
       imuPlacer.set_base_imu_label("pelvis_imu");
       imuPlacer.set_base_heading_axis("-z");
 
@@ -303,6 +304,7 @@ std::string imuPlacer(const std::filesystem::path &file,
       }
       imuPlacer.set_sensor_to_opensim_rotations(_rotations);
       imuPlacer.set_orientation_file_for_calibration(file.string());
+      imuPlacer.set_coordinate_file_for_calibration(markerFile.string());
       imuPlacer.set_model_file(modelSourcePath.string());
 
       const std::string scaledOutputModelFilePrefix =

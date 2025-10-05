@@ -43,7 +43,7 @@ export ASAN_OPTIONS=log_path=asan-leak.log:verbosity=1:detect_leaks=1
 ## Code Examples
 The code below shows some examples for running trial processing. Execute from the `build` directory.
 ```bash
-./bin/processSingleTrial ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim  ~/data/kg-alex-process-testing 24 r_comf 01 3.5 4.5
+./bin/processSingleTrial ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim  ~/data/kg-alex-process-testing 42 r_comf 01 3.5 4.5
 
 ./bin/processSingleTrial ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ~/data/alex-random-test 09 l_comf 01 3.5 4.5
 
