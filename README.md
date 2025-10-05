@@ -43,7 +43,7 @@ export ASAN_OPTIONS=log_path=asan-leak.log:verbosity=1:detect_leaks=1
 ## Code Examples
 The code below shows some examples for running trial processing. Execute from the `build` directory.
 ```bash
-./bin/processSingleTrial ~/data/kuopio-gait-dataset-processed-v2 ./bin/gait2392_thelen2003muscle.osim ~/data/alex-random-test 09 l_comf 01 3.5 4.5
+./bin/processSingleTrial ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim  ~/data/kg-alex-process-testing 24 r_comf 01 3.5 4.5
 
 ./bin/processSingleTrial ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ~/data/alex-random-test 09 l_comf 01 3.5 4.5
 
@@ -51,4 +51,7 @@ The code below shows some examples for running trial processing. Execute from th
 
 ./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ./bin/all-trials-subset.csv ~/data/kg-alex-process-testing
 ./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ./bin/all-trials.csv ~/data/kg-all-trials-oct-3-2025
+./bin/processBulkTrials /research/work/alexbeat/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ./bin/all-trials.csv /research/work/alexbeat/data/kg-all-trials-oct-3-2025
+
 ```
+TODO: Handle ctrl+c for std::system call

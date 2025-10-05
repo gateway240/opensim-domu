@@ -17,9 +17,10 @@ std::string scaleModel(const std::filesystem::path &calibFilePath,
     OpenSim::TRCFileAdapter trcfileadapter{};
     OpenSim::TimeSeriesTableVec3 table{calibFilePath.string()};
 
-    const SimTK::Rotation sensorToOpenSim = SimTK::Rotation(
-        SimTK::BodyOrSpaceType::SpaceRotationSequence, marker_rotations[0],
-        SimTK::XAxis, marker_rotations[1], SimTK::YAxis, marker_rotations[2], SimTK::ZAxis);
+    const SimTK::Rotation sensorToOpenSim =
+        SimTK::Rotation(SimTK::BodyOrSpaceType::SpaceRotationSequence,
+                        marker_rotations[0], SimTK::XAxis, marker_rotations[1],
+                        SimTK::YAxis, marker_rotations[2], SimTK::ZAxis);
     rotateMarkerTable(table, sensorToOpenSim);
 
     // Get the filename without extension
@@ -96,16 +97,20 @@ std::string scaleModel(const std::filesystem::path &calibFilePath,
         //   addDistanceMeasurement(j, measurement,
         //                          participant.Right_thigh_length);
         // } else if (measurementName == "thigh_l") {
-        //   addDistanceMeasurement(j, measurement, participant.Left_thigh_length);
+        //   addDistanceMeasurement(j, measurement,
+        //   participant.Left_thigh_length);
         // } else if (measurementName == "shank_r") {
         //   addDistanceMeasurement(j, measurement,
         //                          participant.Right_shank_length);
         // } else if (measurementName == "shank_l") {
-        //   addDistanceMeasurement(j, measurement, participant.Left_shank_length);
+        //   addDistanceMeasurement(j, measurement,
+        //   participant.Left_shank_length);
         // } else if (measurementName == "foot_r") {
-        //   addDistanceMeasurement(j, measurement, participant.foot_length_right);
+        //   addDistanceMeasurement(j, measurement,
+        //   participant.foot_length_right);
         // } else if (measurementName == "foot_l") {
-        //   addDistanceMeasurement(j, measurement, participant.foot_length_left);
+        //   addDistanceMeasurement(j, measurement,
+        //   participant.foot_length_left);
         // }
       }
     }
@@ -194,9 +199,23 @@ std::string markerIK(const std::filesystem::path &file,
 
     // Rotation from marker space to OpenSim space (y is up)
     // This is the rotation for the kuopio gait dataset
-    const SimTK::Rotation sensorToOpenSim = SimTK::Rotation(
-        SimTK::BodyOrSpaceType::SpaceRotationSequence, marker_rotations[0],
-        SimTK::XAxis, marker_rotations[1], SimTK::YAxis, marker_rotations[2], SimTK::ZAxis);
+    // Choose rotation sequence based on filename
+    SimTK::Rotation sensorToOpenSim;
+    // Rotation if filename contains "_l_" (left) or "_r_" (right)
+    const std::string filename = sourceTrcFile.filename().string();
+    if (filename.find("l_") != std::string::npos) {
+      // Use an alternative rotation for left/right
+      sensorToOpenSim = SimTK::Rotation(
+          SimTK::BodyOrSpaceType::SpaceRotationSequence, marker_rotations_l[0],
+          SimTK::XAxis, marker_rotations_l[1], SimTK::YAxis,
+          marker_rotations_l[2], SimTK::ZAxis);
+    } else {
+      // Default rotation
+      sensorToOpenSim = SimTK::Rotation(
+          SimTK::BodyOrSpaceType::SpaceRotationSequence, marker_rotations[0],
+          SimTK::XAxis, marker_rotations[1], SimTK::YAxis, marker_rotations[2],
+          SimTK::ZAxis);
+    }
     rotateMarkerTable(table, sensorToOpenSim);
 
     // Get the filename without extension
@@ -231,8 +250,8 @@ std::string markerIK(const std::filesystem::path &file,
       ik.set_report_marker_locations(false);
       ik.set_model_file(modelSourcePath.string());
 
-      ik.set_marker_file(sourceTrcFile.string());
-      ik.setMarkerDataFileName(markerFileName);
+      ik.set_marker_file(markerFileName);
+      // ik.setMarkerDataFileName(markerFileName);
       ik.set_output_motion_file(outputMotionFile.string());
 
       bool ikSuccess = false;
@@ -271,7 +290,18 @@ std::string imuPlacer(const std::filesystem::path &file,
       OpenSim::IMUPlacer imuPlacer;
       imuPlacer.set_base_imu_label("pelvis_imu");
       imuPlacer.set_base_heading_axis("-z");
-      imuPlacer.set_sensor_to_opensim_rotations(imu_rotations);
+
+      SimTK::Vec3 _rotations;
+      // Rotation if filename contains "_l_" (left) or "_r_" (right)
+      const std::string filename = file.string();
+      if (filename.find("l_") != std::string::npos) {
+        // Use an alternative rotation for left/right
+        _rotations = imu_rotations_l;
+      } else {
+        // Default rotation
+        _rotations = imu_rotations;
+      }
+      imuPlacer.set_sensor_to_opensim_rotations(_rotations);
       imuPlacer.set_orientation_file_for_calibration(file.string());
       imuPlacer.set_model_file(modelSourcePath.string());
 
@@ -333,8 +363,17 @@ void imuIK(const std::filesystem::path &file,
       // range[0] = 0.0;
       imuIk.set_time_range(timeRange);
 
+      SimTK::Vec3 _rotations;
       // This is the rotation for the kuopio gait dataset
-      imuIk.set_sensor_to_opensim_rotations(imu_rotations);
+      const std::string filename = file.string();
+      if (filename.find("l_") != std::string::npos) {
+        // Use an alternative rotation for left/right
+        _rotations = imu_rotations_l;
+      } else {
+        // Default rotation
+        _rotations = imu_rotations;
+      }
+      imuIk.set_sensor_to_opensim_rotations(_rotations);
       imuIk.set_model_file(modelSourcePath.string());
       imuIk.set_orientations_file(file.string());
       imuIk.set_results_directory(resultDir);
@@ -527,7 +566,6 @@ void domuIK(const std::filesystem::path &file,
       distanceIk.set_accuracy(9.9999999999999995e-07);
       distanceIk.set_time_range(timeRange);
 
-
       // This is the rotation for the kuopio gait dataset
       distanceIk.set_sensor_to_opensim_rotations(imu_rotations);
       distanceIk.set_model_file(modelSourcePath.string());
@@ -554,4 +592,3 @@ void domuIK(const std::filesystem::path &file,
   std::cout << "-------Finished IK Result Dir: " << resultDir.string()
             << " File: " << file.stem().string() << std::endl;
 }
-

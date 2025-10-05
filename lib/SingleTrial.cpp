@@ -180,14 +180,14 @@ int process(const Parameters &params, std::string &message) {
       if (oWeights.getName().find("pelvis_tibia_calcn") != std::string::npos) {
         imuModelPath = orientationModelDeletedImusPath;
       }
-      imuIK(imuFileName, imuModelPath, orientationResultsDir, oWeights,
+      imuIK(orientationFilePath, imuModelPath, orientationResultsDir, oWeights,
             timeRange);
     }
 
     // 7. DOMU IK
     // const auto &weight = params.distanceWeightSets[1];
     for (const auto &weight : params.distanceWeightSets) {
-      std::string domuOrientationPath = imuFileName;
+      std::string domuOrientationPath = orientationFilePath;
       std::filesystem::path domuModelPath = orientationModelPath;
       if (weight.first.getName().find("pelvis_tibia_calcn") !=
               std::string::npos ||
