@@ -10,8 +10,8 @@
 
 namespace OpenSim {
 
-DistanceDataReader* DistanceDataReader::clone() const {
-    return new DistanceDataReader{*this};
+std::unique_ptr<DataAdapter> DistanceDataReader::clone() const {
+    return std::make_unique<DistanceDataReader>(*this);
 }
 
 DataAdapter::OutputTables 

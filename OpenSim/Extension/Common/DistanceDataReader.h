@@ -27,6 +27,7 @@
 #include <OpenSim/Common/ExperimentalSensor.h>
 #include <OpenSim/Common/DataAdapter.h>
 #include <OpenSim/Common/TimeSeriesTable.h>
+#include <memory>
 #include "DistanceBaseDataReader.h"
 #include "DistanceDataReaderSettings.h"
 
@@ -50,7 +51,7 @@ public:
     }
     virtual ~DistanceDataReader() = default;
 
-    DistanceDataReader* clone() const override;
+    std::unique_ptr<DataAdapter> clone() const override;
 protected:
     /** Typically, Xsens can export a trial as one .mtb file (binary that we 
     can't parse) or as collection of ASCII text files that are tab delimited, 
