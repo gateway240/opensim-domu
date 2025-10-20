@@ -45,7 +45,7 @@ Real DistanceSensors::findCurrentDSensorDistance(DSensorIx mx) const {
     const State&                  state   = getAssembler().getInternalState();
     const Transform&              X_GB_A   = mobodA.getBodyTransform(state);
     const Transform&              X_GB_B   = mobodB.getBodyTransform(state);
-    return (X_GB_A.p() - X_GB_B.p()).norm();
+    return (X_GB_A * dsensor.sensorInA - X_GB_B * dsensor.sensorInB).norm();
 }
 
 // goal = 1/2 sum( wi * ai^2 ) / sum(wi) for WRMS 
@@ -60,13 +60,13 @@ int DistanceSensors::calcGoal(const State& state, Real& goal) const {
         const MobilizedBodyIndex    mobodIx      = bodyp->first;
         const Array_<DSensorIx>&    bodyDSensors = bodyp->second;
         const MobilizedBody&        mobod = matter.getMobilizedBody(mobodIx);
-        const Transform&             T_GB  = mobod.getBodyTransform(state);
+        const Transform&             X_GB  = mobod.getBodyTransform(state);
         assert(bodyDSensors.size());
         // Loop over each dsensor on this body.
         for (unsigned m=0; m < bodyDSensors.size(); ++m) {
             const DSensorIx mx = bodyDSensors[m];
-            // std::cout << "DSensorIx: " << mx << std::endl;
             const DSensor&  dsensor = dsensors[mx];
+            // std::cout << "Name: " << dsensor.name  << " DSensorIx: " << mx << std::endl;
             // std::cout << "observation" << ""
             assert(dsensor.bodyA == mobodIx); // better be on this body!
             const MobilizedBody& mobodB  = matter.getMobilizedBody(dsensor.bodyB);
@@ -75,11 +75,12 @@ int DistanceSensors::calcGoal(const State& state, Real& goal) const {
             // std::cout << "obs: " << obs << "is nan: " << isNaN(obs) << std::endl;
             if (!isNaN(obs)) { // skip NaNs
                 // const Transform& X_GB_A   = mobod.getBodyTransform(state);
-                const Transform& X_GB_B   = mobodB.getBodyTransform(state);
-                const Real& true_dist = (T_GB.p() - X_GB_B.p()).norm();
+                const Transform& Y_GB   = mobodB.getBodyTransform(state);
+                const Real& true_dist = (X_GB * dsensor.sensorInA - Y_GB * dsensor.sensorInB).norm();
+                // std::cout << "Sensor in A: " << dsensor.sensorInA << " Sensor in B: " << dsensor.sensorInB << std::endl;
                 // const Real& error = square(square(true_dist) - square(obs)); // error, in S
                 const Real& error = square(true_dist - obs);
-                // std::cout << "Error: " << error << " Obs: " << obs << std::endl;
+                // std::cout << "Error: " << true_dist - obs << " True: " << true_dist << " Obs: " << obs << std::endl;
                 goal += dsensor.weight * error;
                 wtot += dsensor.weight;
             }
@@ -124,14 +125,16 @@ calcGoalGradient(const State& state, Vector& gradient) const {
             const Real& R_GO = observations[getObservationIxForDSensor(mx)];
             if (!isNaN(obs)) { // skip NaNs
                 const Transform& X_GB_B   = mobodB.getBodyTransform(state);
-                const Vec3 error = T_GB.p() - X_GB_B.p(); // Calculate the error vector
+                const Vec3 error = T_GB * dsensor.sensorInA - X_GB_B * dsensor.sensorInB; // Calculate the error vector
                 // const Real& distanceError = square(square(error.norm()) - square(obs)); // error, in S
                 const Real weight = dsensor.weight;
                 const Real distanceError = error.norm() - obs; // Error in distance
+                // const Vec3 force_S = weight * distanceError * error.elementwiseMultiply(error);
                 const Vec3 force_S = weight * distanceError * error.normalize();
-                const SpatialVec force_G = SpatialVec(Vec3(0), force_S);
-                mobod.applyBodyForce(state, force_G, dEdR);
-                mobodB.applyBodyForce(state,-force_G, dEdR);
+                // const SpatialVec force_G = SpatialVec(Vec3(0), force_S);
+                mobod.applyForceToBodyPoint(state,dsensor.sensorInA, force_S, dEdR);
+                mobodB.applyForceToBodyPoint(state,dsensor.sensorInB, -force_S, dEdR);
+                // mobodB.applyBodyForce(state,-force_G, dEdR);
                 wtot += weight;
             }
         }

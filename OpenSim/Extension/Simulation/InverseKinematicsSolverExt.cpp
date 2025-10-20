@@ -24,6 +24,8 @@
 #include "InverseKinematicsSolverExt.h"
 #include <OpenSim/Simulation/Model/Model.h>
 #include <OpenSim/Simulation/Model/MarkerSet.h>
+#include <OpenSim/Simulation/OpenSense/IMU.h>
+#include <Simulation/Model/PhysicalFrame.h>
 
 #include "DistancesReference.h"
 #include "simbody/internal/AssemblyCondition_Markers.h"
@@ -634,10 +636,11 @@ void InverseKinematicsSolverExt::setupDistancesGoal(SimTK::State &s)
     SimTK::Array_<double> distanceWeights;
     _distancesReference->getWeights(s, distanceWeights);
     // get distance sensors defined by the model 
-    const auto onFrames = getModel().getComponentList<PhysicalFrame>();
+    // const auto frames = getModel().getComponentList<PhysicalFrame>();
+    const auto imus = getModel().getComponentList<OpenSim::IMU>();
 
-    for (const auto& modelFrame : onFrames) {
-        const std::string& modelFrameName = modelFrame.getName();
+    for (const auto& imu : imus) {
+        const std::string& modelFrameName = imu.getName();
         // auto found = std::find(dsensorNames.begin(), dsensorNames.end(), modelFrameName);
         auto found = std::find_if(dsensorNames.begin(), dsensorNames.end(), 
                 [&modelFrameName](std::string const& elem) {
@@ -648,21 +651,26 @@ void InverseKinematicsSolverExt::setupDistancesGoal(SimTK::State &s)
             // const auto result = split<std::vector>(*found, '-');
             // const auto pair = std::make_pair(result[0],result[1]);
             // std::cout << "pair 1:" << pair.first << " second: " << pair.second << std::endl;
-            for (const auto& modelFrame2 : onFrames) {
-                const std::string& modelFrameName2 = modelFrame2.getName();
+            for (const auto& imu2 : imus) {
+                const std::string& modelFrameName2 = imu2.getName();
                 auto found2 = std::find_if(dsensorNames.begin(), dsensorNames.end(), 
                     [&modelFrameName, &modelFrameName2](std::string const& elem) {
                     auto v = split<std::vector>(elem, '-');
                     return v[0] == modelFrameName && v[1] == modelFrameName2;
                 });
                 if (found2 != dsensorNames.end()) {
+  
                     // std::cout << "frame1: " << *found << " frame2: " << *found2 <<  std::endl;
                     std::cout << "adding sensor: " << *found2 << std::endl;
                     int index = (int)std::distance(dsensorNames.begin(), found2);
+                    const PhysicalFrame& imu_frame = imu.getSocket<PhysicalFrame>("frame").getConnectee();
+                    const PhysicalFrame& imu_frame_2 = imu2.getSocket<PhysicalFrame>("frame").getConnectee();
                     _distanceAssemblyCondition->addDSensor(*found2,
-                        modelFrame.getMobilizedBodyIndex(),
-                        modelFrame2.getMobilizedBodyIndex(),
-                        (modelFrame.findTransformInBaseFrame().p() - modelFrame2.findTransformInBaseFrame().p()).norm(),
+                        imu_frame.getMobilizedBodyIndex(),
+                        imu_frame.findTransformInBaseFrame().p(),
+                        imu_frame_2.getMobilizedBodyIndex(),
+                        imu_frame_2.findTransformInBaseFrame().p(),
+                        0,
                         distanceWeights[index]);
                 }
             }

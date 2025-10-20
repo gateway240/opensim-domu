@@ -14,6 +14,9 @@ const std::vector<std::string> orientationWeightSets = {
     "setup_OrientationWeightSet_downweighted.xml",
     // Drop Femur
     "setup_OrientationWeightSet_downweighted_pelvis_tibia_calcn.xml",
+    // "setup_OrientationWeightSet_uniform.xml",
+    // // Drop Femur
+    // "setup_OrientationWeightSet_pelvis_tibia_calcn.xml",
     // OpenSim::OrientationWeightSet(
     //     "setup_OrientationWeightSet_pelvis_tibia.xml"),
     // OpenSim::OrientationWeightSet(
@@ -26,6 +29,8 @@ const std::vector<std::pair<std::string, std::string>> distanceWeightSets = {
     // All DOMU Regular
     {"setup_OrientationWeightSet_downweighted.xml",
      "setup_DistanceWeightSet_all_uniform.xml"},
+    //     {"setup_OrientationWeightSet_uniform.xml",
+    //  "setup_DistanceWeightSet_all_uniform.xml"},
     // Drop Femur
     {"setup_OrientationWeightSet_downweighted_pelvis_tibia_calcn.xml",
      "setup_DistanceWeightSet_pelvis_tibia_calcn_uniform.xml"},
