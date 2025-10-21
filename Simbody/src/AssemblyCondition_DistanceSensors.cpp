@@ -22,13 +22,11 @@
  * -------------------------------------------------------------------------- */
 
 #include "simbody/internal/AssemblyCondition_DistanceSensors.h"
-#include "SimTKmath.h"
 #include "simbody/internal/Assembler.h"
 #include "simbody/internal/AssemblyCondition.h"
 #include "simbody/internal/MobilizedBody.h"
 #include "simbody/internal/MultibodySystem.h"
 #include "simbody/internal/SimbodyMatterSubsystem.h"
-#include <iostream>
 #include <map>
 
 using namespace SimTK;
@@ -43,9 +41,9 @@ Real DistanceSensors::findCurrentDSensorDistance(DSensorIx mx) const {
   const MobilizedBody &mobodA = matter.getMobilizedBody(dsensor.bodyA);
   const MobilizedBody &mobodB = matter.getMobilizedBody(dsensor.bodyB);
   const State &state = getAssembler().getInternalState();
-  const Transform &X_GB_A = mobodA.getBodyTransform(state);
-  const Transform &X_GB_B = mobodB.getBodyTransform(state);
-  return (X_GB_A * dsensor.sensorInA - X_GB_B * dsensor.sensorInB).norm();
+  const Transform &X_GB = mobodA.getBodyTransform(state);
+  const Transform &Y_GB = mobodB.getBodyTransform(state);
+  return (X_GB * dsensor.sensorInA - Y_GB * dsensor.sensorInB).norm();
 }
 
 // goal = 1/2 sum( wi * ai^2 ) / sum(wi) for WRMS
@@ -71,10 +69,8 @@ int DistanceSensors::calcGoal(const State &state, Real &goal) const {
       assert(dsensor.bodyA == mobodIx); // better be on this body!
       const MobilizedBody &mobodB = matter.getMobilizedBody(dsensor.bodyB);
       const Real &obs = getObservation(getObservationIxForDSensor(mx));
-      // const Real& R_GO = observations[getObservationIxForDSensor(mx)];
       // std::cout << "obs: " << obs << "is nan: " << isNaN(obs) << std::endl;
       if (!isNaN(obs)) { // skip NaNs
-        // const Transform& X_GB_A   = mobod.getBodyTransform(state);
         const Transform &Y_GB = mobodB.getBodyTransform(state);
         const Real &true_dist =
             (X_GB * dsensor.sensorInA - Y_GB * dsensor.sensorInB).norm();
@@ -115,7 +111,7 @@ int DistanceSensors::calcGoalGradient(const State &state,
     const MobilizedBodyIndex mobodIx = bodyp->first;
     const Array_<DSensorIx> &bodyDSensors = bodyp->second;
     const MobilizedBody &mobod = matter.getMobilizedBody(mobodIx);
-    const Transform &T_GB = mobod.getBodyTransform(state);
+    const Transform &X_GB = mobod.getBodyTransform(state);
     assert(bodyDSensors.size());
     // Loop over each dsensor on this body.
     for (unsigned m = 0; m < bodyDSensors.size(); ++m) {
@@ -126,9 +122,8 @@ int DistanceSensors::calcGoalGradient(const State &state,
       const Real &obs = getObservation(getObservationIxForDSensor(mx));
       const Real &R_GO = observations[getObservationIxForDSensor(mx)];
       if (!isNaN(obs)) { // skip NaNs
-        const Transform &X_GB_B = mobodB.getBodyTransform(state);
-        const Vec3 error =
-            T_GB * dsensor.sensorInA - X_GB_B * dsensor.sensorInB;
+        const Transform &Y_GB = mobodB.getBodyTransform(state);
+        const Vec3 error = X_GB * dsensor.sensorInA - Y_GB * dsensor.sensorInB;
         const Real weight = dsensor.weight;
         const Real distanceError = error.norm() - obs;
         const Vec3 force_S = weight * distanceError * error.normalize();

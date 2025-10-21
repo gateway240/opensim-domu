@@ -100,8 +100,7 @@ class SimTK_SIMBODY_EXPORT DistanceSensors : public AssemblyCondition {
     }
 
     DSensor(MobilizedBodyIndex bodyA, const Vec3 &sensorInA,
-            MobilizedBodyIndex bodyB, const Vec3 &sensorInB,
-            Real weight = 1)
+            MobilizedBodyIndex bodyB, const Vec3 &sensorInB, Real weight = 1)
         : name(""), bodyA(bodyA), sensorInA(sensorInA), bodyB(bodyB),
           sensorInB(sensorInB), weight(weight) {
       assert(weight >= 0);
@@ -154,8 +153,7 @@ public:
   sure to call defineObservationOrder() \e after defining all your dsensors. **/
   DSensorIx addDSensor(const String &name, MobilizedBodyIndex bodyA,
                        const Vec3 &sensorInA, MobilizedBodyIndex bodyB,
-                       const Vec3 &sensorInB,
-                       Real weight = 1) {
+                       const Vec3 &sensorInB, Real weight = 1) {
     SimTK_ERRCHK1_ALWAYS(isFinite(weight) && weight >= 0,
                          "DistanceSensors::addDSensor()",
                          "Illegal orientation sensor weight %g.", weight);
@@ -176,8 +174,7 @@ public:
                          "DSensor name '%s' was already use for DSensor %d.",
                          nm.c_str(), (int)found.first->second);
 
-    dsensors.push_back(
-        DSensor(nm, bodyA, sensorInA, bodyB, sensorInB, weight));
+    dsensors.push_back(DSensor(nm, bodyA, sensorInA, bodyB, sensorInB, weight));
     return ix;
   }
 
