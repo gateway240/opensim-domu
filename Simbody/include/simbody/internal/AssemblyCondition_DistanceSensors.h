@@ -24,11 +24,11 @@
  * limitations under the License.                                             *
  * -------------------------------------------------------------------------- */
 
-#include "SimTKcommon.h"
 #include "simbody/internal/Assembler.h"
 #include "simbody/internal/AssemblyCondition.h"
 #include "simbody/internal/common.h"
 
+#include <SimTKcommon/SmallMatrix.h>
 #include <map>
 
 namespace SimTK {
@@ -95,15 +95,15 @@ class SimTK_SIMBODY_EXPORT DistanceSensors : public AssemblyCondition {
             MobilizedBodyIndex bodyB, const Vec3 &sensorInB,
             const Real &distance, Real weight = 1)
         : name(name), bodyA(bodyA), sensorInA(sensorInA), bodyB(bodyB),
-          sensorInB(sensorInB), distance(distance), weight(weight) {
+          sensorInB(sensorInB), weight(weight) {
       assert(weight >= 0);
     }
 
     DSensor(MobilizedBodyIndex bodyA, const Vec3 &sensorInA,
             MobilizedBodyIndex bodyB, const Vec3 &sensorInB,
-            const Real &distance, Real weight = 1)
+            Real weight = 1)
         : name(""), bodyA(bodyA), sensorInA(sensorInA), bodyB(bodyB),
-          sensorInB(sensorInB), distance(distance), weight(weight) {
+          sensorInB(sensorInB), weight(weight) {
       assert(weight >= 0);
     }
 
@@ -112,7 +112,6 @@ class SimTK_SIMBODY_EXPORT DistanceSensors : public AssemblyCondition {
     Vec3 sensorInA;
     MobilizedBodyIndex bodyB;
     Vec3 sensorInB;
-    Real distance;
     Real weight;
   };
 
@@ -155,7 +154,7 @@ public:
   sure to call defineObservationOrder() \e after defining all your dsensors. **/
   DSensorIx addDSensor(const String &name, MobilizedBodyIndex bodyA,
                        const Vec3 &sensorInA, MobilizedBodyIndex bodyB,
-                       const Vec3 &sensorInB, const Real &distance,
+                       const Vec3 &sensorInB,
                        Real weight = 1) {
     SimTK_ERRCHK1_ALWAYS(isFinite(weight) && weight >= 0,
                          "DistanceSensors::addDSensor()",
@@ -178,7 +177,7 @@ public:
                          nm.c_str(), (int)found.first->second);
 
     dsensors.push_back(
-        DSensor(nm, bodyA, sensorInA, bodyB, sensorInB, distance, weight));
+        DSensor(nm, bodyA, sensorInA, bodyB, sensorInB, weight));
     return ix;
   }
 
@@ -188,8 +187,8 @@ public:
   @see addDSensor(name,...) for more information. **/
   DSensorIx addDSensor(MobilizedBodyIndex bodyA, const Vec3 &sensorInA,
                        MobilizedBodyIndex bodyB, const Vec3 &sensorInB,
-                       const Real &distance, Real weight = 1) {
-    return addDSensor("", bodyA, sensorInA, bodyB, sensorInB, distance, weight);
+                       Real weight = 1) {
+    return addDSensor("", bodyA, sensorInA, bodyB, sensorInB, weight);
   }
 
   /** Define the meaning of the observation data by giving the DSensorIx
@@ -324,8 +323,8 @@ public:
 
   /** Get the orientation (coordinate axes fixed in its body frame) of the given
   dsensor. **/
-  const Real &getDSensorStation(DSensorIx mx) const {
-    return dsensors[mx].distance;
+  const Vec3 &getDSensorStation(DSensorIx mx) const {
+    return dsensors[mx].sensorInA;
   }
 
   /** Return the number of observations that were defined via the last call to

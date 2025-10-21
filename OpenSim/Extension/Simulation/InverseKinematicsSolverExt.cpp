@@ -670,7 +670,6 @@ void InverseKinematicsSolverExt::setupDistancesGoal(SimTK::State &s)
                         imu_frame.findTransformInBaseFrame().p(),
                         imu_frame_2.getMobilizedBodyIndex(),
                         imu_frame_2.findTransformInBaseFrame().p(),
-                        0,
                         distanceWeights[index]);
                 }
             }
