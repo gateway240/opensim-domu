@@ -41,10 +41,13 @@ include_directories(${OPENSIMSIMBODY_INCLUDE_DIRS} ./)
 # include_directories(${OPENSIMSIMBODY_INCLUDE_DIRS} ./Simbody/include)
 
 set (Plugin_Simbody_HEADERS
+                        Simbody/include/simbody/internal/AssemblerExt.h
+                        Simbody/include/simbody/internal/AssemblyConditionExt.h
                         Simbody/include/simbody/internal/AssemblyCondition_DistanceSensors.h
 )
 
 set (Plugin_Simbody_SOURCES
+                        Simbody/src/AssemblerExt.cpp
                         Simbody/src/AssemblyCondition_DistanceSensors.cpp
 )
 
@@ -82,16 +85,20 @@ set (Plugin_OpenSim_Simulation_HEADERS
                         OpenSim/Extension/Simulation/osimSimulationDLL.h
                         OpenSim/Extension/Simulation/RegisterTypes_osimSimulation.h
                         OpenSim/Extension/Simulation/osimSimulation.h
+                        OpenSim/Extension/Simulation/AssemblySolverExt.h
                         OpenSim/Extension/Simulation/DistancesReference.h
                         OpenSim/Extension/Simulation/InverseKinematicsSolverExt.h
+                        OpenSim/Extension/Simulation/InverseKinematicsSolverKF.h
                         OpenSim/Extension/Simulation/OpenSense/IMUPlacerExt.h
                         )
 
 set (Plugin_OpenSim_Simulation_SOURCES
                         OpenSim/Extension/Simulation/osimSimulationDLL.cpp
                         OpenSim/Extension/Simulation/RegisterTypes_osimSimulation.cpp
+                        OpenSim/Extension/Simulation/AssemblySolverExt.cpp
                         OpenSim/Extension/Simulation/DistancesReference.cpp
                         OpenSim/Extension/Simulation/InverseKinematicsSolverExt.cpp
+                        OpenSim/Extension/Simulation/InverseKinematicsSolverKF.cpp
                         OpenSim/Extension/Simulation/OpenSense/IMUPlacerExt.cpp
                         )
 
@@ -100,6 +107,7 @@ set (Plugin_OpenSim_Tools_HEADERS
                         OpenSim/Extension/Tools/RegisterTypes_osimTools.h
                         OpenSim/Extension/Tools/osimTools.h
                         OpenSim/Extension/Tools/DistanceInverseKinematicsTool.h
+                        OpenSim/Extension/Tools/KFComboInverseKinematicsTool.h
                         OpenSim/Extension/Tools/MarkerPair.h
                         OpenSim/Extension/Tools/MarkerPairSet.h
                         OpenSim/Extension/Tools/Measurement.h
@@ -113,6 +121,7 @@ set (Plugin_OpenSim_Tools_SOURCES
                         OpenSim/Extension/Tools/osimToolsDLL.cpp
                         OpenSim/Extension/Tools/RegisterTypes_osimTools.cpp
                         OpenSim/Extension/Tools/DistanceInverseKinematicsTool.cpp
+                        OpenSim/Extension/Tools/KFComboInverseKinematicsTool.cpp
                         OpenSim/Extension/Tools/MarkerPair.cpp
                         OpenSim/Extension/Tools/MarkerPairSet.cpp
                         OpenSim/Extension/Tools/Measurement.cpp

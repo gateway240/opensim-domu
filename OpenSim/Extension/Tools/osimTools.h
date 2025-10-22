@@ -24,6 +24,7 @@
  * -------------------------------------------------------------------------- */
 
 #include "DistanceInverseKinematicsTool.h"
+#include "KFComboInverseKinematicsTool.h"
 #include "RegisterTypes_osimTools.h"    // to expose RegisterTypes_osimTools
 
 #endif // OPENSIM_OSIMTOOLS_H_

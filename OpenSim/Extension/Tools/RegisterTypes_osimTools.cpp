@@ -42,6 +42,7 @@ static osimExtensionToolsInstantiator instantiator;
 OSIMTOOLS_API void RegisterTypes_osimExtensionTools() {
   try {
     Object::registerType( DistanceInverseKinematicsTool());
+    Object::registerType( KFComboInverseKinematicsTool());
     Object::registerType( DistanceWeightSet());
   } catch (const std::exception &e) {
     log_error("Error during osimExtensionTools Object registration: {}.", e.what());

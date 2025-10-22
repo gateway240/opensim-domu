@@ -205,6 +205,23 @@ int process(const Parameters &params, std::string &message) {
       domuIK(distance_fk_output_file_noise, domuOrientationPath, domuModelPath,
              domuResultsDir, weight.first, weight.second, timeRange);
     }
+    // 8. DOMU KF IK
+    std::filesystem::path domuKFResultsDir = resultsDir / domuKFDir;
+    createDirectory(domuKFResultsDir);
+
+    const auto &weight = params.distanceWeightSets[0];
+    for (const auto &weight : params.distanceWeightSets) {
+      std::filesystem::path domuModelPath = orientationModelPath;
+      if (weight.first.getName().find("pelvis_tibia_calcn") !=
+              std::string::npos ||
+          weight.second.getName().find("pelvis_tibia_calcn") !=
+              std::string::npos) {
+        domuModelPath = orientationModelDeletedImusPath;
+      }
+      domuKFIK(distance_fk_output_file_noise, orientationFilePath,
+               domuModelPath, domuKFResultsDir, weight.first, weight.second,
+               timeRange);
+    }
     
     appendMessage(message, "Completed!");
     status = 0;

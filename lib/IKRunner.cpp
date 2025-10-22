@@ -2,6 +2,7 @@
 
 #include "IKRunner.h"
 #include "OpenSim/Extension/Simulation/OpenSense/IMUPlacerExt.h"
+#include "OpenSim/Extension/Tools/KFComboInverseKinematicsTool.h"
 #include "Utils.h"
 
 std::string scaleModel(const std::filesystem::path &calibFilePath,
@@ -582,6 +583,110 @@ void domuIK(const std::filesystem::path &file,
           (resultDir / (outputFilePrefix + sep + outputSuffix + ".xml"))
               .string());
       distanceIk.run(visualizeResults);
+
+    } else {
+      std::cout << "Model Path doesn't exist: " << modelSourcePath << std::endl;
+    }
+  } catch (const std::exception &e) {
+    std::cerr << "Error in processing: " << e.what() << std::endl;
+  } catch (...) {
+    std::cout << "Error in processing File: " << file.string() << std::endl;
+  }
+  std::cout << "-------Finished IK Result Dir: " << resultDir.string()
+            << " File: " << file.stem().string() << std::endl;
+}
+
+void domuKFIK(const std::filesystem::path &file,
+              const std::filesystem::path &orientationFile,
+              const std::filesystem::path &modelPath,
+              const std::filesystem::path &resultDir,
+              const OpenSim::OrientationWeightSet &oWeightSet,
+              const OpenSim::DistanceWeightSet &dWeightSet,
+              const OpenSim::Array<double> &timeRange) {
+  std::cout << "---Starting DOMU KF IK Processing: " << file.string()
+            << std::endl;
+  try {
+    const std::string oWeightSetName = oWeightSet.getName();
+    const std::string dWeightSetName = dWeightSet.getName();
+
+    const std::filesystem::path modelSourcePath = modelPath;
+    const std::string modelSourceStem = modelSourcePath.stem().string();
+
+    const std::string outputFilePrefix = file.stem();
+
+    std::cout << "Model Path: " << modelSourcePath.string()
+              << " Orientation Weight Set Name: " << oWeightSetName
+              << " Distance Weight Set Name: " << dWeightSetName << std::endl;
+
+    if (std::filesystem::exists(modelSourcePath)) {
+
+      // Write out distances data
+      const std::string distance_fk_output_file = file;
+      const std::string orientation_fk_output_file = orientationFile;
+
+      // Start IK!
+      const std::string outputSuffix = "domu_ik_output";
+      const std::string outputFilePrefix =
+          modelSourceStem + sep + oWeightSetName + sep + dWeightSetName;
+      const std::filesystem::path outputMotionFile =
+          resultDir / (outputFilePrefix + sep + outputSuffix + ".mot");
+      OpenSim::KFComboInverseKinematicsTool distanceIk;
+      distanceIk.setName(outputFilePrefix);
+
+      distanceIk.set_accuracy(9.9999999999999995e-07);
+
+      // const OpenSim::Array<double> range{
+      // std::numeric_limits<double>::infinity(), 2};
+      // Make range -Infinity to Infinity unless limited by data
+      // range[0] = 0.0;
+      distanceIk.set_time_range(timeRange);
+
+      OpenSim::Model model = OpenSim::Model(modelSourcePath.string());
+
+      // This is the rotation for the kuopio gait dataset
+      const SimTK::Vec3 rotations(-SimTK::Pi / 2, 0, 0);
+      distanceIk.set_sensor_to_opensim_rotations(rotations);
+      distanceIk.setModel(model);
+      // distanceIk.set_model_file(modelSourcePath.string());
+      distanceIk.set_distances_file(distance_fk_output_file);
+      distanceIk.set_orientations_file(orientation_fk_output_file);
+      distanceIk.set_results_directory(resultDir);
+      distanceIk.set_output_motion_file(outputMotionFile.string());
+      distanceIk.set_orientation_weights(oWeightSet);
+      distanceIk.set_distance_weights(dWeightSet);
+      bool visualizeResults = false;
+
+      // UKF stuff
+      bool writeUKF = true;
+      SimTK::Vec3 imuRMSinDeg = SimTK::Vec3(0.5, 1.0, 0.5);
+      int order = 3;
+      int numCPUCores = 2 * (order + 1);
+      double alpha = 1.0;
+      double beta = 1.0;
+      double kappa = -1.337;
+      int lagLength = 5;
+      double missingDataScale = 100.0;
+      bool enableResampling = true;
+      double sgma2w = 3000.0;
+      SimTK::Vector_<double> processCovScales =
+          SimTK::Vector_<double>(order + 1, 1.0);
+      int processCovMethod = 0;
+      distanceIk.set_alpha(alpha);
+      distanceIk.set_beta(beta);
+      distanceIk.set_kappa(kappa);
+      distanceIk.set_order(order);
+      distanceIk.set_lag_length(lagLength);
+      distanceIk.set_num_threads(numCPUCores);
+      distanceIk.set_write_KF(writeUKF);
+      distanceIk.set_sgma2w(sgma2w);
+      distanceIk.set_missing_data_scale(missingDataScale);
+      distanceIk.set_imu_RMS_in_deg(imuRMSinDeg);
+      distanceIk.set_enable_resampling(enableResampling);
+      distanceIk.set_process_covariance_method(processCovMethod);
+      distanceIk.print(
+          (resultDir / (outputFilePrefix + sep + outputSuffix + ".xml"))
+              .string());
+      distanceIk.run(visualizeResults, processCovScales);
 
     } else {
       std::cout << "Model Path doesn't exist: " << modelSourcePath << std::endl;
