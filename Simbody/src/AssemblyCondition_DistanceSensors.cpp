@@ -78,7 +78,7 @@ int DistanceSensors::calcGoal(const State &state, Real &goal) const {
         // << dsensor.sensorInB << std::endl;
         const Real &error = square(true_dist - obs);
         // std::cout << "Error: " << true_dist - obs << " True: " << true_dist
-        // << " Obs: " << obs << std::endl;
+        // << " Obs: " << obs << " Weight: " << dsensor.weight << std::endl;
         goal += dsensor.weight * error;
         wtot += dsensor.weight;
       }
@@ -127,6 +127,7 @@ int DistanceSensors::calcGoalGradient(const State &state,
         const Real weight = dsensor.weight;
         const Real distanceError = error.norm() - obs;
         const Vec3 force_S = weight * distanceError * error.normalize();
+        // std::cout << "Force: " <<  force_S << std::endl;
         mobod.applyForceToBodyPoint(state, dsensor.sensorInA, force_S, dEdR);
         mobodB.applyForceToBodyPoint(state, dsensor.sensorInB, -force_S, dEdR);
         wtot += weight;

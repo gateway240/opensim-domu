@@ -33,7 +33,7 @@ const std::vector<std::pair<std::string, std::string>> distanceWeightSets = {
     //  "setup_DistanceWeightSet_all_uniform.xml"},
     // Drop Femur
     {"setup_OrientationWeightSet_downweighted_pelvis_tibia_calcn.xml",
-     "setup_DistanceWeightSet_pelvis_tibia_calcn_uniform.xml"},
+     "setup_DistanceWeightSet_downweighted_pelvis_tibia_calcn.xml"},
     // {std::filesystem::absolute(
     //      "setup_OrientationWeightSet_pelvis_tibia_calcn.xml"),
     //  std::filesystem::absolute(

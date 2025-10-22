@@ -36,7 +36,7 @@ const std::vector<std::pair<std::string, std::string>> distanceWeightSets = {
          "bin/setup_OrientationWeightSet_downweighted_pelvis_tibia_calcn.xml")
          .string(),
      std::filesystem::absolute(
-         "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_uniform.xml")
+         "bin/setup_DistanceWeightSet_downweighted_pelvis_tibia_calcn.xml")
          .string()},
     // {std::filesystem::absolute(
     //      "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml"),

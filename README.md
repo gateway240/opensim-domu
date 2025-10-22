@@ -51,7 +51,7 @@ The code below shows some examples for running trial processing. Execute from th
 
 ./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ./bin/all-trials-subset.csv ~/data/kg-alex-process-testing
 ./bin/processBulkTrials ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ./bin/all-trials.csv ~/data/kg-all-trials-oct-3-2025
-./bin/processBulkTrials /research/work/alexbeat/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ./bin/all-trials.csv /research/work/alexbeat/data/kg-all-trials-oct-6-2025
+./bin/processBulkTrials /research/work/alexbeat/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ./bin/all-trials.csv /research/work/alexbeat/data/kg-all-trials-oct-21-2025
 
 ```
 TODO: Handle ctrl+c for std::system call
