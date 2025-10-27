@@ -29,7 +29,7 @@ const std::vector<std::pair<std::string, std::string>> distanceWeightSets = {
     // All DOMU Regular
     {std::filesystem::absolute("bin/setup_OrientationWeightSet_downweighted.xml")
          .string(),
-     std::filesystem::absolute("bin/setup_DistanceWeightSet_all_uniform.xml")
+     std::filesystem::absolute("bin/setup_DistanceWeightSet_downweighted_uniform.xml")
          .string()},
     // Drop Femur
     {std::filesystem::absolute(

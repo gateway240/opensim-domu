@@ -28,7 +28,7 @@ const std::vector<std::string> orientationWeightSets = {
 const std::vector<std::pair<std::string, std::string>> distanceWeightSets = {
     // All DOMU Regular
     {"setup_OrientationWeightSet_downweighted.xml",
-     "setup_DistanceWeightSet_all_uniform.xml"},
+     "setup_DistanceWeightSet_all_downweight.xml"},
     //     {"setup_OrientationWeightSet_uniform.xml",
     //  "setup_DistanceWeightSet_all_uniform.xml"},
     // Drop Femur
