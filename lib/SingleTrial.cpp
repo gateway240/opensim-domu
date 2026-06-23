@@ -116,13 +116,13 @@ int process(const Parameters &params, std::string &message) {
     // 1. Scale Model - already happened
 
     // 2. Marker IK
-    std::filesystem::path absoluteMarkerIKSetup = params.markerIKPath;
-    std::filesystem::path calibratedModelPath = resultsDir / params.modelPath;
-    std::filesystem::path markerResultsDir = resultsDir / opticalDir;
-    createDirectory(markerResultsDir);
-    std::filesystem::path markerData =
-        sourceDir / opticalDir /
-        (params.gait + "_" + params.trial + "_markers.trc");
+    // std::filesystem::path absoluteMarkerIKSetup = params.markerIKPath;
+    std::filesystem::path calibratedModelPath = params.modelPath;
+    // std::filesystem::path markerResultsDir = resultsDir / opticalDir;
+    // createDirectory(markerResultsDir);
+    // std::filesystem::path markerData =
+    //     sourceDir / opticalDir /
+    //     (params.gait + "_" + params.trial + "_markers.trc");
 
     // 2.5 - Calculate start and end time
     double startTime = params.startTime;
@@ -132,79 +132,79 @@ int process(const Parameters &params, std::string &message) {
     const OpenSim::Array<double> timeRange{0, 2};
     timeRange[0] = startTime;
     timeRange[1] = endTime;
-    std::string outputMarkerMotionFile =
-        markerIK(markerData, absoluteMarkerIKSetup, calibratedModelPath,
-                 markerResultsDir, timeRange);
+    // std::string outputMarkerMotionFile =
+    //     markerIK(markerData, absoluteMarkerIKSetup, calibratedModelPath,
+    //              markerResultsDir, timeRange);
 
     // 3. Place IMUs
-    std::filesystem::path markerFilePath =
-        markerResultsDir / outputMarkerMotionFile;
+    // std::filesystem::path markerFilePath =
+    //     markerResultsDir / outputMarkerMotionFile;
     std::filesystem::path orientationResultsDir = resultsDir / imuDir;
     createDirectory(orientationResultsDir);
     std::filesystem::path orientationFilePath =
         sourceDir / imuDir /
         ("data_" + params.gait + "_" + params.trial + "_orientations.sto");
     std::string orientationModelFile =
-        imuPlacer(orientationFilePath, markerFilePath, calibratedModelPath,
+        imuPlacer(orientationFilePath, "", calibratedModelPath,
                   orientationResultsDir);
     // 4. DOMU FK
-    std::filesystem::path domuResultsDir = resultsDir / domuDir;
-    createDirectory(domuResultsDir);
-    const std::filesystem::path tableFileDir =
-        domuFK(markerFilePath, orientationModelFile, domuResultsDir,
-                params.distanceDataReaderSettings, timeRange);
-    const std::filesystem::path domuFileName = tableFileDir / "all_distances.sto";
-    const std::filesystem::path imuFileName = tableFileDir / "test_distance_analysis_orientations.sto";
+    // std::filesystem::path domuResultsDir = resultsDir / domuDir;
+    // createDirectory(domuResultsDir);
+    // const std::filesystem::path tableFileDir =
+    //     domuFK(markerFilePath, orientationModelFile, domuResultsDir,
+    //             params.distanceDataReaderSettings, timeRange);
+    // const std::filesystem::path domuFileName = tableFileDir / "all_distances.sto";
+    // const std::filesystem::path imuFileName = tableFileDir / "test_distance_analysis_orientations.sto";
 
     // 5. Adding Noise
-    std::filesystem::path tablePath = domuFileName;
-    OpenSim::TimeSeriesTable table(tablePath);
-    addNoiseToTable(table, params.domuNoise);
-    const std::filesystem::path distance_fk_output_file_noise =
-        tablePath.parent_path() / ("all_distances_with_noise" + sep +
-                                   std::to_string(params.domuNoise) + ".sto");
-    const std::filesystem::path orientation_fk_output_file_noise = imuFileName;
-    OpenSim::STOFileAdapter_<double>::write(
-        table, distance_fk_output_file_noise.string());
+    // std::filesystem::path tablePath = domuFileName;
+    // OpenSim::TimeSeriesTable table(tablePath);
+    // addNoiseToTable(table, params.domuNoise);
+    // const std::filesystem::path distance_fk_output_file_noise =
+    //     tablePath.parent_path() / ("all_distances_with_noise" + sep +
+    //                                std::to_string(params.domuNoise) + ".sto");
+    // const std::filesystem::path orientation_fk_output_file_noise = imuFileName;
+    // OpenSim::STOFileAdapter_<double>::write(
+    //     table, distance_fk_output_file_noise.string());
     
     // 6. IMU IK
     const std::filesystem::path orientationModelPath =
         orientationResultsDir / orientationModelFile;
-    const std::vector<std::string> imus_to_delete = {"femur_r_imu",
-                                                     "femur_l_imu"};
-    const std::filesystem::path orientationModelDeletedImusPath = delete_imus(
-        orientationModelPath, imus_to_delete, "-femur-dropped-imus");
+    // const std::vector<std::string> imus_to_delete = {"femur_r_imu",
+    //                                                  "femur_l_imu"};
+    // const std::filesystem::path orientationModelDeletedImusPath = delete_imus(
+    //     orientationModelPath, imus_to_delete, "-femur-dropped-imus");
 
     for (const auto &oWeights : params.orientationWeightSets) {
       std::filesystem::path imuModelPath = orientationModelPath;
-      if (oWeights.getName().find("pelvis_tibia_calcn") != std::string::npos) {
-        imuModelPath = orientationModelDeletedImusPath;
-      }
+      // if (oWeights.getName().find("pelvis_tibia_calcn") != std::string::npos) {
+      //   imuModelPath = orientationModelDeletedImusPath;
+      // }
       imuIK(orientationFilePath, imuModelPath, orientationResultsDir, oWeights,
             timeRange);
     }
 
     // 7. DOMU IK
     // const auto &weight = params.distanceWeightSets[1];
-    for (const auto &weight : params.distanceWeightSets) {
-      std::string domuOrientationPath = orientationFilePath;
-      std::filesystem::path domuModelPath = orientationModelPath;
-      if (weight.first.getName().find("pelvis_tibia_calcn") !=
-              std::string::npos ||
-          weight.second.getName().find("pelvis_tibia_calcn") !=
-              std::string::npos) {
-        domuModelPath = orientationModelDeletedImusPath;
-      }
-      if (weight.second.getName().find("torso") != std::string::npos) {
-        domuModelPath =
-            imuPlacer(orientation_fk_output_file_noise, markerFilePath,
-                      domuModelPath, domuResultsDir);
-        std::cout << "Added torso IMU! " << domuModelPath << std::endl;
-      }
+    // for (const auto &weight : params.distanceWeightSets) {
+    //   std::string domuOrientationPath = orientationFilePath;
+    //   std::filesystem::path domuModelPath = orientationModelPath;
+    //   if (weight.first.getName().find("pelvis_tibia_calcn") !=
+    //           std::string::npos ||
+    //       weight.second.getName().find("pelvis_tibia_calcn") !=
+    //           std::string::npos) {
+    //     domuModelPath = orientationModelDeletedImusPath;
+    //   }
+    //   if (weight.second.getName().find("torso") != std::string::npos) {
+    //     domuModelPath =
+    //         imuPlacer(orientation_fk_output_file_noise, markerFilePath,
+    //                   domuModelPath, domuResultsDir);
+    //     std::cout << "Added torso IMU! " << domuModelPath << std::endl;
+    //   }
 
-      domuIK(distance_fk_output_file_noise, domuOrientationPath, domuModelPath,
-             domuResultsDir, weight.first, weight.second, timeRange);
-    }
+    //   domuIK(distance_fk_output_file_noise, domuOrientationPath, domuModelPath,
+    //          domuResultsDir, weight.first, weight.second, timeRange);
+    // }
     
     appendMessage(message, "Completed!");
     status = 0;
