@@ -148,8 +148,8 @@ int process(const Parameters &params, std::string &message) {
         imuPlacer(orientationFilePath, "", calibratedModelPath,
                   orientationResultsDir);
     // 4. DOMU FK
-    // std::filesystem::path domuResultsDir = resultsDir / domuDir;
-    // createDirectory(domuResultsDir);
+    std::filesystem::path domuResultsDir = resultsDir / domuDir;
+    createDirectory(domuResultsDir);
     // const std::filesystem::path tableFileDir =
     //     domuFK(markerFilePath, orientationModelFile, domuResultsDir,
     //             params.distanceDataReaderSettings, timeRange);
@@ -185,26 +185,29 @@ int process(const Parameters &params, std::string &message) {
     }
 
     // 7. DOMU IK
-    // const auto &weight = params.distanceWeightSets[1];
-    // for (const auto &weight : params.distanceWeightSets) {
-    //   std::string domuOrientationPath = orientationFilePath;
-    //   std::filesystem::path domuModelPath = orientationModelPath;
-    //   if (weight.first.getName().find("pelvis_tibia_calcn") !=
-    //           std::string::npos ||
-    //       weight.second.getName().find("pelvis_tibia_calcn") !=
-    //           std::string::npos) {
-    //     domuModelPath = orientationModelDeletedImusPath;
-    //   }
-    //   if (weight.second.getName().find("torso") != std::string::npos) {
-    //     domuModelPath =
-    //         imuPlacer(orientation_fk_output_file_noise, markerFilePath,
-    //                   domuModelPath, domuResultsDir);
-    //     std::cout << "Added torso IMU! " << domuModelPath << std::endl;
-    //   }
+    std::filesystem::path distanceFilePath =
+        sourceDir / imuDir /
+        ("data_" + params.gait + "_" + params.trial + "_all_distances.sto");
+    const auto &weight = params.distanceWeightSets[1];
+    for (const auto &weight : params.distanceWeightSets) {
+      std::string domuOrientationPath = orientationFilePath;
+      std::filesystem::path domuModelPath = orientationModelPath;
+      // if (weight.first.getName().find("pelvis_tibia_calcn") !=
+      //         std::string::npos ||
+      //     weight.second.getName().find("pelvis_tibia_calcn") !=
+      //         std::string::npos) {
+      //   domuModelPath = orientationModelDeletedImusPath;
+      // }
+      // if (weight.second.getName().find("torso") != std::string::npos) {
+      //   domuModelPath =
+      //       imuPlacer(orientation_fk_output_file_noise, markerFilePath,
+      //                 domuModelPath, domuResultsDir);
+      //   std::cout << "Added torso IMU! " << domuModelPath << std::endl;
+      // }
 
-    //   domuIK(distance_fk_output_file_noise, domuOrientationPath, domuModelPath,
-    //          domuResultsDir, weight.first, weight.second, timeRange);
-    // }
+      domuIK(distanceFilePath, domuOrientationPath, domuModelPath,
+             domuResultsDir, weight.first, weight.second, timeRange);
+    }
     
     appendMessage(message, "Completed!");
     status = 0;

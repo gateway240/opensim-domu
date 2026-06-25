@@ -13,50 +13,13 @@ const std::vector<std::string> orientationWeightSets = {
     // All IMUs regular
     std::filesystem::absolute("bin/setup_OrientationWeightSet_InertialPoser_uniform.xml")
         .string(),
-    // Drop Femur
-    // std::filesystem::absolute(
-    //     "bin/setup_OrientationWeightSet_downweighted_pelvis_tibia_calcn.xml")
-    //     .string(),
-    // OpenSim::OrientationWeightSet(
-    //     "setup_OrientationWeightSet_pelvis_tibia.xml"),
-    // OpenSim::OrientationWeightSet(
-    //     "setup_OrientationWeightSet_pelvis_calcn.xml"),
-    // OpenSim::OrientationWeightSet("setup_OrientationWeightSet_pelvis.xml"),
-    // OpenSim::OrientationWeightSet(
-    //     "setup_OrientationWeightSet_tibia_calcn.xml")
 };
 const std::vector<std::pair<std::string, std::string>> distanceWeightSets = {
     // All DOMU Regular
-    // {std::filesystem::absolute("bin/setup_OrientationWeightSet_downweighted.xml")
-    //      .string(),
-    //  std::filesystem::absolute("bin/setup_DistanceWeightSet_downweighted_uniform.xml")
-    //      .string()},
-    // Drop Femur
-    // {std::filesystem::absolute(
-    //      "bin/setup_OrientationWeightSet_downweighted_pelvis_tibia_calcn.xml")
-    //      .string(),
-    //  std::filesystem::absolute(
-    //      "bin/setup_DistanceWeightSet_downweighted_pelvis_tibia_calcn.xml")
-    //      .string()},
-    // {std::filesystem::absolute(
-    //      "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml"),
-    //  std::filesystem::absolute(
-    //      "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_plus_torso.xml")},
-    // {std::filesystem::absolute(
-    //      "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml"),
-    //  std::filesystem::absolute(
-    //      "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_special.xml")},
-    // {std::filesystem::absolute(
-    //      "bin/setup_OrientationWeightSet_pelvis_tibia_calcn.xml"),
-    //  std::filesystem::absolute(
-    //      "bin/setup_DistanceWeightSet_pelvis_tibia_calcn_special_2.xml")},
-    // OpenSim::OrientationWeightSet(
-    //     "setup_OrientationWeightSet_pelvis_tibia.xml"),
-    // OpenSim::OrientationWeightSet(
-    //     "setup_OrientationWeightSet_pelvis_calcn.xml"),
-    // OpenSim::OrientationWeightSet("setup_OrientationWeightSet_pelvis.xml"),
-    // OpenSim::OrientationWeightSet(
-    //     "setup_OrientationWeightSet_tibia_calcn.xml")
+    {std::filesystem::absolute("bin/setup_OrientationWeightSet_InertialPoser_uniform.xml")
+         .string(),
+     std::filesystem::absolute("bin/setup_DistanceWeightSet_InertialPoser_all_uniform.xml")
+         .string()},
 };
 
 // In this project
