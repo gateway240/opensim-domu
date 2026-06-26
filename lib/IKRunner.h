@@ -42,7 +42,7 @@ const std::string sep = "_";
 // Rotation from marker space to OpenSim space (y is up)
 // This is the rotation for the kuopio gait dataset
 // Markers and IMUs need to be rotated differently --> CHECK BOTH!
-const SimTK::Vec3 marker_rotations(-SimTK::Pi / 2, SimTK::Pi / 2, 0);
+const SimTK::Vec3 marker_rotations(0, SimTK::Pi / 2, 0);
 const SimTK::Vec3 marker_rotations_l(-SimTK::Pi / 2, -SimTK::Pi / 2,0);
 const SimTK::Vec3 imu_rotations(SimTK::Pi/2,0 ,-SimTK::Pi/2);
 // const SimTK::Vec3 imu_rotations(0,0,0 );

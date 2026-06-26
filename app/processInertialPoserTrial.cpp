@@ -1,32 +1,36 @@
 #include <chrono>
+#include <cstdlib>
 #include <filesystem>
 #include <iostream>
 #include <vector>
 
+#include "Participant.h"
 #include "SingleTrial.h"
 #include "Utils.h"
 
-
 const std::vector<std::string> orientationWeightSets = {
     // All IMUs regular
-    std::filesystem::absolute("bin/setup_OrientationWeightSet_InertialPoser_uniform.xml")
+    std::filesystem::absolute(
+        "bin/setup_OrientationWeightSet_InertialPoser_uniform.xml")
         .string(),
 };
 const std::vector<std::pair<std::string, std::string>> distanceWeightSets = {
     // All DOMU Regular
-    {std::filesystem::absolute("bin/setup_OrientationWeightSet_InertialPoser_uniform.xml")
+    {std::filesystem::absolute(
+         "bin/setup_OrientationWeightSet_InertialPoser_uniform.xml")
          .string(),
-     std::filesystem::absolute("bin/setup_DistanceWeightSet_InertialPoser_all_uniform.xml")
+     std::filesystem::absolute(
+         "bin/setup_DistanceWeightSet_InertialPoser_all_uniform.xml")
          .string()},
 };
 
 // In this project
-const std::string fileNameParticipants = "bin/info_participants.csv";
-const std::string fileNameSetupScale = "bin/kg_Setup_Scale.xml";
-const std::string fileNameMarkerSet = "bin/kg_Scale_MarkerSet.xml";
-const std::string fileNameSetupIKTasks = "bin/kg_IK_Tasks_uniform.xml";
+// const std::string fileNameParticipants = "bin/info_participants.csv";
+const std::string fileNameSetupScale = "bin/bsm_Setup_Scale.xml";
+const std::string fileNameMarkerSet = "bin/bsm_Scale_MarkerSet.xml";
+const std::string fileNameSetupIKTasks = "bin/bsm_IK_Tasks_uniform.xml";
 const std::string fileNameSetupMarkerIK =
-    "bin/setup_MarkerInverseKinematics.xml";
+    "bin/setup_MarkerInverseKinematics_InertialPoser.xml";
 const std::string fileNameDistanceDataReaderPath =
     "bin/myDOMUMappingsSensor_torso.xml";
 
@@ -74,7 +78,26 @@ int main(int argc, char *argv[]) {
 
   params.markerIKPath = std::filesystem::absolute(fileNameSetupMarkerIK);
 
-  params.modelPath = params.modelPath;
+  ScaleParameters scaleParams;
+  scaleParams.basePath = params.basePath;
+  scaleParams.modelPath = params.modelPath;
+  scaleParams.outputPath = params.outputPath;
+
+  scaleParams.markerSetPath = std::filesystem::absolute(fileNameMarkerSet);
+  scaleParams.setupScalePath = std::filesystem::absolute(fileNameSetupScale);
+
+  std::filesystem::path markerData =
+      ("data_" + params.gait + "_" + params.trial + "_markers.trc");
+  scaleParams.fileNameCalibration = markerData;
+  //   scaleParams.participantPath =
+  //   std::filesystem::absolute(fileNameParticipants);
+  scaleParams.participant = params.participant;
+  const Participant participant = Participant(0, 30, 1.78, 85.9, 'M');
+  scaleParams.participantData = participant;
+
+  std::string scaledModelName = scaleParticipant(scaleParams);
+
+    params.modelPath = scaledModelName;
   std::string message;
   int status = process(params, message);
 

@@ -5,11 +5,10 @@
 #include "SingleTrial.h"
 
 #include "IKRunner.h"
-#include "ModelEditor.h"
 #include "Utils.h"
 
 std::string scaleParticipant(const ScaleParameters &params) {
-  int participantID = std::stoi(params.participant);
+  // int participantID = std::stoi(params.participant);
 
   if (!std::filesystem::exists(params.basePath) ||
       !std::filesystem::is_directory(params.basePath)) {
@@ -28,33 +27,36 @@ std::string scaleParticipant(const ScaleParameters &params) {
   bool status = createDirectory(resultsDir);
 
   // Scale the Model
-  const std::string fileNameParticipants = params.participantPath;
+  // const std::string fileNameParticipants = params.participantPath;
   // std::cout << "Participants filename:" << fileNameParticipants << std::endl;
-  std::vector<Participant> participants = parseCSV(fileNameParticipants);
+  // std::vector<Participant> participants = parseCSV(fileNameParticipants);
 
   // Find the participant with the matching ID
-  auto participant =
-      std::find_if(participants.begin(), participants.end(),
-                   [participantID](const Participant &participant) {
-                     return participant.ID == participantID;
-                   });
+  // auto participant =
+  //     std::find_if(participants.begin(), participants.end(),
+  //                  [participantID](const Participant &participant) {
+  //                    return participant.ID == participantID;
+  //                  });
+  std::cout << "Attemptint to unpack participant! " << std::endl;
+  const auto &participant = params.participantData;
 
-  if (participant != participants.end()) {
-    std::cout << "Found Participant: ID: " << participant->ID
-              << ", Age: " << participant->Age
-              << ", Gender: " << participant->Gender
-              << ", Leg: " << participant->Leg
-              << ", Height: " << participant->Height
-              << ", Mass: " << participant->Mass << std::endl;
-  } else {
-    std::cout << "Participant with ID " << participantID << " not found."
-              << std::endl;
-    return "";
-  }
+  // if (participant != participants.end()) {
+  std::cout << "Found Participant: ID: " << participant.ID
+            << ", Age: " << participant.Age
+            << ", Gender: " << participant.Gender
+            << ", Leg: " << participant.Leg
+            << ", Height: " << participant.Height
+            << ", Mass: " << participant.Mass << std::endl;
+  // } else {
+  //   std::cout << "Participant with ID " << participantID << " not found."
+  //             << std::endl;
+  //   return "";
+  // }
 
   // Create configuration for running IK
   // OpenSim::IO::SetDigitsPad(4);
-  const std::filesystem::path sourceDir = params.basePath / (params.participant) / "mocap";
+  const std::filesystem::path sourceDir =
+      params.basePath / (params.participant);
   const std::filesystem::path calibFile =
       sourceDir / params.fileNameCalibration;
   std::filesystem::path absoluteModelPath = params.modelPath;
@@ -64,7 +66,7 @@ std::string scaleParticipant(const ScaleParameters &params) {
   std::filesystem::path absoluteSetupScale = params.setupScalePath;
   std::string scaledModelName =
       scaleModel(calibFile, absoluteMarkerSetPath, absoluteSetupScale,
-                 absoluteModelPath, resultsDir, *participant);
+                 absoluteModelPath, resultsDir, participant);
   return scaledModelName;
 }
 
@@ -116,13 +118,13 @@ int process(const Parameters &params, std::string &message) {
     // 1. Scale Model - already happened
 
     // 2. Marker IK
-    // std::filesystem::path absoluteMarkerIKSetup = params.markerIKPath;
-    std::filesystem::path calibratedModelPath = params.modelPath;
-    // std::filesystem::path markerResultsDir = resultsDir / opticalDir;
-    // createDirectory(markerResultsDir);
-    // std::filesystem::path markerData =
-    //     sourceDir / opticalDir /
-    //     (params.gait + "_" + params.trial + "_markers.trc");
+    std::filesystem::path absoluteMarkerIKSetup = params.markerIKPath;
+    std::filesystem::path calibratedModelPath = resultsDir / params.modelPath;
+    std::filesystem::path markerResultsDir = resultsDir / opticalDir;
+    createDirectory(markerResultsDir);
+    std::filesystem::path markerData =
+        sourceDir /
+        ("data_" + params.gait + "_" + params.trial + "_markers.trc");
 
     // 2.5 - Calculate start and end time
     double startTime = params.startTime;
@@ -132,20 +134,20 @@ int process(const Parameters &params, std::string &message) {
     const OpenSim::Array<double> timeRange{0, 2};
     timeRange[0] = startTime;
     timeRange[1] = endTime;
-    // std::string outputMarkerMotionFile =
-    //     markerIK(markerData, absoluteMarkerIKSetup, calibratedModelPath,
-    //              markerResultsDir, timeRange);
+    std::string outputMarkerMotionFile =
+        markerIK(markerData, absoluteMarkerIKSetup, calibratedModelPath,
+                 markerResultsDir, timeRange);
 
     // 3. Place IMUs
-    // std::filesystem::path markerFilePath =
-    //     markerResultsDir / outputMarkerMotionFile;
+    std::filesystem::path markerFilePath =
+        markerResultsDir / outputMarkerMotionFile;
     std::filesystem::path orientationResultsDir = resultsDir / imuDir;
     createDirectory(orientationResultsDir);
     std::filesystem::path orientationFilePath =
-        sourceDir / imuDir /
+        sourceDir /
         ("data_" + params.gait + "_" + params.trial + "_orientations.sto");
     std::string orientationModelFile =
-        imuPlacer(orientationFilePath, "", calibratedModelPath,
+        imuPlacer(orientationFilePath, markerFilePath, calibratedModelPath,
                   orientationResultsDir);
     // 4. DOMU FK
     std::filesystem::path domuResultsDir = resultsDir / domuDir;
@@ -153,8 +155,9 @@ int process(const Parameters &params, std::string &message) {
     // const std::filesystem::path tableFileDir =
     //     domuFK(markerFilePath, orientationModelFile, domuResultsDir,
     //             params.distanceDataReaderSettings, timeRange);
-    // const std::filesystem::path domuFileName = tableFileDir / "all_distances.sto";
-    // const std::filesystem::path imuFileName = tableFileDir / "test_distance_analysis_orientations.sto";
+    // const std::filesystem::path domuFileName = tableFileDir /
+    // "all_distances.sto"; const std::filesystem::path imuFileName =
+    // tableFileDir / "test_distance_analysis_orientations.sto";
 
     // 5. Adding Noise
     // std::filesystem::path tablePath = domuFileName;
@@ -162,22 +165,25 @@ int process(const Parameters &params, std::string &message) {
     // addNoiseToTable(table, params.domuNoise);
     // const std::filesystem::path distance_fk_output_file_noise =
     //     tablePath.parent_path() / ("all_distances_with_noise" + sep +
-    //                                std::to_string(params.domuNoise) + ".sto");
-    // const std::filesystem::path orientation_fk_output_file_noise = imuFileName;
-    // OpenSim::STOFileAdapter_<double>::write(
+    //                                std::to_string(params.domuNoise) +
+    //                                ".sto");
+    // const std::filesystem::path orientation_fk_output_file_noise =
+    // imuFileName; OpenSim::STOFileAdapter_<double>::write(
     //     table, distance_fk_output_file_noise.string());
-    
+
     // 6. IMU IK
     const std::filesystem::path orientationModelPath =
         orientationResultsDir / orientationModelFile;
     // const std::vector<std::string> imus_to_delete = {"femur_r_imu",
     //                                                  "femur_l_imu"};
-    // const std::filesystem::path orientationModelDeletedImusPath = delete_imus(
+    // const std::filesystem::path orientationModelDeletedImusPath =
+    // delete_imus(
     //     orientationModelPath, imus_to_delete, "-femur-dropped-imus");
 
     for (const auto &oWeights : params.orientationWeightSets) {
       std::filesystem::path imuModelPath = orientationModelPath;
-      // if (oWeights.getName().find("pelvis_tibia_calcn") != std::string::npos) {
+      // if (oWeights.getName().find("pelvis_tibia_calcn") != std::string::npos)
+      // {
       //   imuModelPath = orientationModelDeletedImusPath;
       // }
       imuIK(orientationFilePath, imuModelPath, orientationResultsDir, oWeights,
@@ -186,7 +192,7 @@ int process(const Parameters &params, std::string &message) {
 
     // 7. DOMU IK
     std::filesystem::path distanceFilePath =
-        sourceDir / imuDir /
+        sourceDir /
         ("data_" + params.gait + "_" + params.trial + "_all_distances.sto");
     const auto &weight = params.distanceWeightSets[1];
     for (const auto &weight : params.distanceWeightSets) {
@@ -208,7 +214,7 @@ int process(const Parameters &params, std::string &message) {
       domuIK(distanceFilePath, domuOrientationPath, domuModelPath,
              domuResultsDir, weight.first, weight.second, timeRange);
     }
-    
+
     appendMessage(message, "Completed!");
     status = 0;
   } catch (const std::exception &e) {

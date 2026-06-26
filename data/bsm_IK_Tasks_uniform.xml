@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IKTaskSet name="bsm_base_IK">
+    <objects>
+        <IKMarkerTask name="BLTI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="BRTI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="C7">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="CHIN">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="CLAV">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="FBBT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="FLTI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="FRBT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="FRTI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LAKI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LANK">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LBHD">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LBWT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LELB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LELS">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LELSO">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFBB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFBT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFFB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFFT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFHD">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFIN">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFLB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFLT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFMB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFMT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFPI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFRM">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LFWT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LHAP">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LHBA">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LHEB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LHEE">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LHFR">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LHME">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LHPI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LHTH">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LHTO">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LKNE">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LKNI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LMT5">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LSHN">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LSHO">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LTIA">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LTIB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LTIC">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LTOE">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LTOP">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LTOS">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LWRA">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="LWRB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="NOSE">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RAKI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RANK">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RBHD">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RBWT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RELB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RELS">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RELSO">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFBB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFBT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFFB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFFT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFHD">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFIN">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFLB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFLT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFMB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFMT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFPI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFRM">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RFWT">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RHAP">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RHBA">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RHEB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RHEE">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RHFR">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RHME">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RHPI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RHTH">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RHTO">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RITL">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RITR">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RKNE">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RKNI">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RMT5">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RSHN">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RSHO">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RTIA">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RTIB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RTIC">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RTOE">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RTOP">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RTOS">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RWRA">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="RWRB">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+        <IKMarkerTask name="THD">
+            <apply> true </apply>
+            <weight> 1.00000000 </weight>
+        </IKMarkerTask>
+    </objects>
+</IKTaskSet>

@@ -6,9 +6,10 @@
 typedef struct {
   int ID;
   int Age;
+  double Height;
+  double Mass;
   char Gender; // 'M' or 'F'
   char Leg;    // Assuming 'L' or 'R'
-  double Height;
   std::vector<std::string>
       Invalid_trials; // Store invalid trials as a vector of strings
   int IAD;
@@ -20,7 +21,6 @@ typedef struct {
   int Right_thigh_length;
   int Left_shank_length;
   int Right_shank_length;
-  double Mass;
   double ICD;
   double Left_knee_width_mocap;
   double Right_knee_width_mocap;
