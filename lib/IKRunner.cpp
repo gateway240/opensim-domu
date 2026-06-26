@@ -316,7 +316,7 @@ std::string imuPlacer(const std::filesystem::path &file,
                 << std::endl;
 
       imuPlacer.set_output_model_file(scaledOutputModelFile);
-      imuPlacer.run();
+      // imuPlacer.run();
       return scaledOutputModelFile;
 
     } else {

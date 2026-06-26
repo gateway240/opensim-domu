@@ -6,8 +6,6 @@
 #include "SingleTrial.h"
 #include "Utils.h"
 
-// How much noise to add
-const double rms = 0.0;
 
 const std::vector<std::string> orientationWeightSets = {
     // All IMUs regular
@@ -56,7 +54,6 @@ int main(int argc, char *argv[]) {
   params.trial = argv[6];
   params.startTime = std::stod(argv[7]);
   params.endTime = std::stod(argv[8]);
-  params.domuNoise = rms;
 
   std::vector<OpenSim::OrientationWeightSet> oWeightSets;
   for (const auto &orientation : orientationWeightSets) {
