@@ -127,8 +127,11 @@ int process(const Parameters &params, std::string &message) {
         ("data_" + params.gait + "_" + params.trial + "_markers.trc");
 
     // 2.5 - Calculate start and end time
-    double startTime = params.startTime;
-    double endTime = params.endTime;
+    OpenSim::TimeSeriesTableVec3 table{markerData.string()};
+    const auto& time = table.getIndependentColumn();
+
+    double startTime = time.front();
+    double endTime   = time.back();
     appendMessage(message, "Start time: ", startTime, " End Time: ", endTime);
 
     const OpenSim::Array<double> timeRange{0, 2};

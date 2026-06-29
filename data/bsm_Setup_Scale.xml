@@ -77,9 +77,6 @@
 								<MarkerPair name="">
 									<markers> RFWT LFWT </markers>
 								</MarkerPair>
-								<MarkerPair name="">
-									<markers> RBWT LBWT </markers>
-								</MarkerPair>
 								<!-- <MarkerPair name="">
 									<markers> Pelvis3 Pelvis4 </markers>
 								</MarkerPair> -->
@@ -353,6 +350,184 @@
 									<axes> X Y Z </axes>
 								</BodyScale>
 								<BodyScale name="toes_l">
+									<!--Axes (X Y Z) along which to scale a body. For example, 'X Y Z' scales
+									    along all three axes, and 'Y' scales just along the Y axis.-->
+									<axes> X Y Z </axes>
+								</BodyScale>
+							</objects>
+							<groups/>
+						</BodyScaleSet>
+					</Measurement>
+					<Measurement name="humerus_r">
+						<!--Flag to turn on and off scaling for this measurement.-->
+						<apply> true </apply>
+						<!--Set of marker pairs used to determine the scale factors.-->
+						<MarkerPairSet name="">
+							<objects>
+								<MarkerPair name="">
+									<markers> RHTO RELSO</markers>
+								</MarkerPair>
+							</objects>
+							<groups/>
+						</MarkerPairSet>
+						<!--Set of bodies to be scaled by this measurement.-->
+						<BodyScaleSet name="">
+							<objects>
+								<BodyScale name="humerus_r">
+									<!--Axes (X Y Z) along which to scale a body. For example, 'X Y Z' scales
+									    along all three axes, and 'Y' scales just along the Y axis.-->
+									<axes> X Y Z </axes>
+								</BodyScale>
+							</objects>
+							<groups/>
+						</BodyScaleSet>
+					</Measurement>
+					<Measurement name="humerus_l">
+						<!--Flag to turn on and off scaling for this measurement.-->
+						<apply> true </apply>
+						<!--Set of marker pairs used to determine the scale factors.-->
+						<MarkerPairSet name="">
+							<objects>
+								<MarkerPair name="">
+									<markers> LHTO LELSO</markers>
+								</MarkerPair>
+							</objects>
+							<groups/>
+						</MarkerPairSet>
+						<!--Set of bodies to be scaled by this measurement.-->
+						<BodyScaleSet name="">
+							<objects>
+								<BodyScale name="humerus_L">
+									<!--Axes (X Y Z) along which to scale a body. For example, 'X Y Z' scales
+									    along all three axes, and 'Y' scales just along the Y axis.-->
+									<axes> X Y Z </axes>
+								</BodyScale>
+							</objects>
+							<groups/>
+						</BodyScaleSet>
+					</Measurement>
+					<Measurement name="radius_r">
+						<!--Flag to turn on and off scaling for this measurement.-->
+						<apply> true </apply>
+						<!--Set of marker pairs used to determine the scale factors.-->
+						<MarkerPairSet name="">
+							<objects>
+								<MarkerPair name="">
+									<markers> RELB RWRB</markers>
+								</MarkerPair>
+							</objects>
+							<groups/>
+						</MarkerPairSet>
+						<!--Set of bodies to be scaled by this measurement.-->
+						<BodyScaleSet name="">
+							<objects>
+								<BodyScale name="radius_r">
+									<!--Axes (X Y Z) along which to scale a body. For example, 'X Y Z' scales
+									    along all three axes, and 'Y' scales just along the Y axis.-->
+									<axes> X Y Z </axes>
+								</BodyScale>
+								<BodyScale name="ulna_r">
+									<!--Axes (X Y Z) along which to scale a body. For example, 'X Y Z' scales
+									    along all three axes, and 'Y' scales just along the Y axis.-->
+									<axes> X Y Z </axes>
+								</BodyScale>
+							</objects>
+							<groups/>
+						</BodyScaleSet>
+					</Measurement>
+					<Measurement name="radius_l">
+						<!--Flag to turn on and off scaling for this measurement.-->
+						<apply> true </apply>
+						<!--Set of marker pairs used to determine the scale factors.-->
+						<MarkerPairSet name="">
+							<objects>
+								<MarkerPair name="">
+									<markers> LELB LWRB</markers>
+								</MarkerPair>
+							</objects>
+							<groups/>
+						</MarkerPairSet>
+						<!--Set of bodies to be scaled by this measurement.-->
+						<BodyScaleSet name="">
+							<objects>
+								<BodyScale name="radius_l">
+									<!--Axes (X Y Z) along which to scale a body. For example, 'X Y Z' scales
+									    along all three axes, and 'Y' scales just along the Y axis.-->
+									<axes> X Y Z </axes>
+								</BodyScale>
+								<BodyScale name="ulna_l">
+									<!--Axes (X Y Z) along which to scale a body. For example, 'X Y Z' scales
+									    along all three axes, and 'Y' scales just along the Y axis.-->
+									<axes> X Y Z </axes>
+								</BodyScale>
+							</objects>
+							<groups/>
+						</BodyScaleSet>
+					</Measurement>
+					<Measurement name="hand_r">
+						<!--Flag to turn on and off scaling for this measurement.-->
+						<apply> true </apply>
+						<!--Set of marker pairs used to determine the scale factors.-->
+						<MarkerPairSet name="">
+							<objects>
+								<MarkerPair name="">
+									<markers> RFIN RHME</markers>
+								</MarkerPair>
+							</objects>
+							<groups/>
+						</MarkerPairSet>
+						<!--Set of bodies to be scaled by this measurement.-->
+						<BodyScaleSet name="">
+							<objects>
+								<BodyScale name="hand_r">
+									<!--Axes (X Y Z) along which to scale a body. For example, 'X Y Z' scales
+									    along all three axes, and 'Y' scales just along the Y axis.-->
+									<axes> X Y Z </axes>
+								</BodyScale>
+							</objects>
+							<groups/>
+						</BodyScaleSet>
+					</Measurement>
+					<Measurement name="hand_l">
+						<!--Flag to turn on and off scaling for this measurement.-->
+						<apply> true </apply>
+						<!--Set of marker pairs used to determine the scale factors.-->
+						<MarkerPairSet name="">
+							<objects>
+								<MarkerPair name="">
+									<markers> LFIN LHME</markers>
+								</MarkerPair>
+							</objects>
+							<groups/>
+						</MarkerPairSet>
+						<!--Set of bodies to be scaled by this measurement.-->
+						<BodyScaleSet name="">
+							<objects>
+								<BodyScale name="hand_l">
+									<!--Axes (X Y Z) along which to scale a body. For example, 'X Y Z' scales
+									    along all three axes, and 'Y' scales just along the Y axis.-->
+									<axes> X Y Z </axes>
+								</BodyScale>
+							</objects>
+							<groups/>
+						</BodyScaleSet>
+					</Measurement>
+					<Measurement name="head">
+						<!--Flag to turn on and off scaling for this measurement.-->
+						<apply> true </apply>
+						<!--Set of marker pairs used to determine the scale factors.-->
+						<MarkerPairSet name="">
+							<objects>
+								<MarkerPair name="">
+									<markers> RFHD LFHD</markers>
+								</MarkerPair>
+							</objects>
+							<groups/>
+						</MarkerPairSet>
+						<!--Set of bodies to be scaled by this measurement.-->
+						<BodyScaleSet name="">
+							<objects>
+								<BodyScale name="head">
 									<!--Axes (X Y Z) along which to scale a body. For example, 'X Y Z' scales
 									    along all three axes, and 'Y' scales just along the Y axis.-->
 									<axes> X Y Z </axes>
