@@ -6,21 +6,27 @@ RESULTS_FOLDER=~/data/uwb/results-ik
 OSIM_MODEL=bin/gait2392_full.osim
 BINARY=./bin/processInertialPoserTrial
 
-MAX_JOBS=1
+MAX_JOBS=10
 
 shopt -s nullglob
 
 pids=()
 
+# --- kill whole process group on Ctrl+C ---
 cleanup() {
-    echo "Caught interrupt — killing children..."
+    echo "Caught interrupt — killing tracked jobs..."
+
     for pid in "${pids[@]}"; do
+        # kill child processes first
+        pkill -TERM -P "$pid" 2>/dev/null || true
+
+        # then kill the subject wrapper
         kill -TERM "$pid" 2>/dev/null || true
     done
+
     wait 2>/dev/null || true
     exit 1
 }
-
 trap cleanup INT TERM
 
 process_file() {
@@ -55,10 +61,21 @@ process_file() {
     "${cmd[@]}"
 }
 
-running=0
 
-for trc_file in "$ROOT_FOLDER"/*/data_*_markers.trc; do
-    process_file "$trc_file" & pid=$!
+process_subject() {
+    local subject_dir="$1"
+    local subject_id
+    subject_id=$(basename "$subject_dir")
+
+    for trc_file in "$subject_dir"/data_*_markers.trc; do
+        process_file "$trc_file"
+    done
+}
+
+# parallelize per subject
+for subject_dir in "$ROOT_FOLDER"/*/; do
+    process_subject "$subject_dir" &
+    pid=$!
     pids+=("$pid")
 
     while (( $(jobs -rp | wc -l) >= MAX_JOBS )); do

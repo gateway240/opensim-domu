@@ -47,6 +47,8 @@ The code below shows some examples for running trial processing. Execute from th
 
 ./bin/processInertialPoserTrial ~/data/uwb/results bin/gait2392_full.osim  ~/data/uwb/results-ik 00 subject_0-00_session2_0-processed_00 session2_0 0.0 10.0
 
+./bin/processInertialPoserTrial ~/data/uwb/results bin/gait2392_full.osim  ~/data/uwb/results-ik 03 subject_3-03_session1_0-processed_03 session1_0 0.0 30.0
+
 ./bin/processSingleTrial ~/data/kuopio-gait-dataset-processed-v2 ./bin/Rajagopal2016.osim ~/data/alex-random-test 09 l_comf 01 3.5 4.5
 
 ./bin/processTrialCollection ~/data/kuopio-gait-dataset-processed-v2 ../data/all-trials.csv

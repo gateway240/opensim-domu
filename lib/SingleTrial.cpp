@@ -130,8 +130,10 @@ int process(const Parameters &params, std::string &message) {
     OpenSim::TimeSeriesTableVec3 table{markerData.string()};
     const auto& time = table.getIndependentColumn();
 
-    double startTime = time.front();
-    double endTime   = time.back();
+    double startTime = params.startTime;
+    double endTime = params.endTime;
+    // double startTime = time.front();
+    // double endTime   = time.back();
     appendMessage(message, "Start time: ", startTime, " End Time: ", endTime);
 
     const OpenSim::Array<double> timeRange{0, 2};
