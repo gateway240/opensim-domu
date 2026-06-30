@@ -20,6 +20,9 @@ typedef struct {
   double startTime = 0.0;
   double endTime = 0.0;
   double domuNoise = 0.0;
+  double startImu = 0.0;
+  double startOptical = 0.0;
+  double endOptical = 0.0;
   std::vector<OpenSim::OrientationWeightSet> orientationWeightSets;
   std::vector<std::pair<OpenSim::OrientationWeightSet, OpenSim::DistanceWeightSet>> distanceWeightSets;
 } Parameters;

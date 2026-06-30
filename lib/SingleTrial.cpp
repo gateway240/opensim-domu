@@ -133,7 +133,7 @@ int process(const Parameters &params, std::string &message) {
     OpenSim::TimeSeriesTableVec3 table{markerData.string()};
     // const auto& time = table.getIndependentColumn();
     const auto [newStart, newEnd] =
-        trimAndWrite<OpenSim::TRCFileAdapter>(table, outMarker, 14.85, 21.0);
+        trimAndWrite<OpenSim::TRCFileAdapter>(table, outMarker, params.startOptical, params.endOptical);
 
     double startTime = newStart;
     double endTime = newEnd;
@@ -162,7 +162,7 @@ int process(const Parameters &params, std::string &message) {
     std::filesystem::path outOrientation =
         orientationResultsDir / orientationFileName;
 
-    const double start_imu = 7.75;
+    const double start_imu = params.startImu;
     const double end_imu = start_imu + (newEnd - newStart);
     OpenSim::TimeSeriesTableQuaternion orientations(
         orientationFilePath.string());

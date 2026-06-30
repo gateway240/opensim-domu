@@ -59,6 +59,14 @@ int main(int argc, char *argv[]) {
   params.startTime = std::stod(argv[7]);
   params.endTime = std::stod(argv[8]);
 
+  params.startOptical = std::stod(argv[9]);
+  params.endOptical = std::stod(argv[10]);
+  params.startImu = std::stod(argv[11]);
+
+//   params.startOptical = params.startTime;
+//   params.endOptical = params.endTime;
+//   params.startImu = params.startTime;
+
   std::vector<OpenSim::OrientationWeightSet> oWeightSets;
   for (const auto &orientation : orientationWeightSets) {
     const auto oWeights = OpenSim::OrientationWeightSet(orientation);
