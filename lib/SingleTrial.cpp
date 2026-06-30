@@ -1,3 +1,4 @@
+#include <Common/STOFileAdapter.h>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -117,30 +118,37 @@ int process(const Parameters &params, std::string &message) {
 
     // 1. Scale Model - already happened
 
+    // optical 12.85
+    // IMU 7.75
     // 2. Marker IK
     std::filesystem::path absoluteMarkerIKSetup = params.markerIKPath;
     std::filesystem::path calibratedModelPath = resultsDir / params.modelPath;
     std::filesystem::path markerResultsDir = resultsDir / opticalDir;
     createDirectory(markerResultsDir);
-    std::filesystem::path markerData =
-        sourceDir /
-        ("data_" + params.gait + "_" + params.trial + "_markers.trc");
-
+    std::string markerFileName =
+        "data_" + params.gait + "_" + params.trial + "_markers.trc";
+    std::filesystem::path markerData = sourceDir / markerFileName;
+    std::filesystem::path outMarker = markerResultsDir / markerFileName;
     // 2.5 - Calculate start and end time
     OpenSim::TimeSeriesTableVec3 table{markerData.string()};
-    const auto& time = table.getIndependentColumn();
+    // const auto& time = table.getIndependentColumn();
+    const auto [newStart, newEnd] =
+        trimAndWrite<OpenSim::TRCFileAdapter>(table, outMarker, 14.85, 21.0);
 
-    double startTime = params.startTime;
-    double endTime = params.endTime;
+    double startTime = newStart;
+    double endTime = newEnd;
+    // double startTime = params.startTime;
+    // double endTime = params.endTime;
     // double startTime = time.front();
     // double endTime   = time.back();
+
     appendMessage(message, "Start time: ", startTime, " End Time: ", endTime);
 
     const OpenSim::Array<double> timeRange{0, 2};
     timeRange[0] = startTime;
     timeRange[1] = endTime;
     std::string outputMarkerMotionFile =
-        markerIK(markerData, absoluteMarkerIKSetup, calibratedModelPath,
+        markerIK(outMarker, absoluteMarkerIKSetup, calibratedModelPath,
                  markerResultsDir, timeRange);
 
     // 3. Place IMUs
@@ -148,11 +156,20 @@ int process(const Parameters &params, std::string &message) {
         markerResultsDir / outputMarkerMotionFile;
     std::filesystem::path orientationResultsDir = resultsDir / imuDir;
     createDirectory(orientationResultsDir);
-    std::filesystem::path orientationFilePath =
-        sourceDir /
-        ("data_" + params.gait + "_" + params.trial + "_orientations.sto");
+    std::string orientationFileName =
+        "data_" + params.gait + "_" + params.trial + "_orientations.sto";
+    std::filesystem::path orientationFilePath = sourceDir / orientationFileName;
+    std::filesystem::path outOrientation =
+        orientationResultsDir / orientationFileName;
+
+    const double start_imu = 7.75;
+    const double end_imu = start_imu + (newEnd - newStart);
+    OpenSim::TimeSeriesTableQuaternion orientations(
+        orientationFilePath.string());
+    trimAndWrite<OpenSim::STOFileAdapterQuaternion>(
+        orientations, outOrientation, start_imu, end_imu);
     std::string orientationModelFile =
-        imuPlacer(orientationFilePath, markerFilePath, calibratedModelPath,
+        imuPlacer(outOrientation, markerFilePath, calibratedModelPath,
                   orientationResultsDir);
     // 4. DOMU FK
     std::filesystem::path domuResultsDir = resultsDir / domuDir;
@@ -191,14 +208,19 @@ int process(const Parameters &params, std::string &message) {
       // {
       //   imuModelPath = orientationModelDeletedImusPath;
       // }
-      imuIK(orientationFilePath, imuModelPath, orientationResultsDir, oWeights,
+      imuIK(outOrientation, imuModelPath, orientationResultsDir, oWeights,
             timeRange);
     }
 
     // 7. DOMU IK
-    std::filesystem::path distanceFilePath =
-        sourceDir /
-        ("data_" + params.gait + "_" + params.trial + "_all_distances.sto");
+    std::string distanceFileName =
+        "data_" + params.gait + "_" + params.trial + "_all_distances.sto";
+    std::filesystem::path distanceFilePath = sourceDir / distanceFileName;
+    std::filesystem::path outDistance = domuResultsDir / distanceFileName;
+
+    OpenSim::TimeSeriesTable_<double> distances(distanceFilePath.string());
+    trimAndWrite<OpenSim::STOFileAdapter_<double>>(distances, outDistance, start_imu,
+                                                   end_imu);
     const auto &weight = params.distanceWeightSets[1];
     for (const auto &weight : params.distanceWeightSets) {
       std::string domuOrientationPath = orientationFilePath;
@@ -216,7 +238,7 @@ int process(const Parameters &params, std::string &message) {
       //   std::cout << "Added torso IMU! " << domuModelPath << std::endl;
       // }
 
-      domuIK(distanceFilePath, domuOrientationPath, domuModelPath,
+      domuIK(outDistance, domuOrientationPath, domuModelPath,
              domuResultsDir, weight.first, weight.second, timeRange);
     }
 

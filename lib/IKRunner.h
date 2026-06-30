@@ -44,9 +44,12 @@ const std::string sep = "_";
 // Markers and IMUs need to be rotated differently --> CHECK BOTH!
 const SimTK::Vec3 marker_rotations(0, SimTK::Pi / 2, 0);
 const SimTK::Vec3 marker_rotations_l(-SimTK::Pi / 2, -SimTK::Pi / 2,0);
+// const SimTK::Vec3 imu_rotations(0 ,0,0);
+// const SimTK::Vec3 imu_rotations(-SimTK::Pi / 2,SimTK::Pi,SimTK::Pi / 2);
 // const SimTK::Vec3 imu_rotations( SimTK::Pi,  SimTK::Pi/2, -SimTK::Pi/2);
 // Knee 3.14 -1.5 1.5
-const SimTK::Vec3 imu_rotations(0 ,0,0);
+// const SimTK::Vec3 imu_rotations(0 ,0,0);
+const SimTK::Vec3 imu_rotations(-SimTK::Pi/2,SimTK::Pi/2 ,-SimTK::Pi/2);
 // const SimTK::Vec3 imu_rotations(-SimTK::Pi / 2,SimTK::Pi,SimTK::Pi / 2);
 const SimTK::Vec3 imu_rotations_l(-SimTK::Pi / 2,SimTK::Pi / 2,0 );
 // Function signatures

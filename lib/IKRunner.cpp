@@ -204,19 +204,19 @@ std::string markerIK(const std::filesystem::path &file,
     SimTK::Rotation sensorToOpenSim;
     // Rotation if filename contains "_l_" (left) or "_r_" (right)
     const std::string filename = sourceTrcFile.filename().string();
-    // if (filename.find("l_") != std::string::npos) {
-    //   // Use an alternative rotation for left/right
-    //   sensorToOpenSim = SimTK::Rotation(
-    //       SimTK::BodyOrSpaceType::SpaceRotationSequence, marker_rotations_l[0],
-    //       SimTK::XAxis, marker_rotations_l[1], SimTK::YAxis,
-    //       marker_rotations_l[2], SimTK::ZAxis);
-    // } else {
+    if (filename.find("l_") != std::string::npos) {
+      // Use an alternative rotation for left/right
+      sensorToOpenSim = SimTK::Rotation(
+          SimTK::BodyOrSpaceType::SpaceRotationSequence, marker_rotations_l[0],
+          SimTK::XAxis, marker_rotations_l[1], SimTK::YAxis,
+          marker_rotations_l[2], SimTK::ZAxis);
+    } else {
       // Default rotation
       sensorToOpenSim = SimTK::Rotation(
           SimTK::BodyOrSpaceType::SpaceRotationSequence, marker_rotations[0],
           SimTK::XAxis, marker_rotations[1], SimTK::YAxis, marker_rotations[2],
           SimTK::ZAxis);
-    // }
+    }
     rotateMarkerTable(table, sensorToOpenSim);
 
     // Get the filename without extension
@@ -290,7 +290,7 @@ std::string imuPlacer(const std::filesystem::path &file,
 
       OpenSim::IMUPlacerExt imuPlacer;
       imuPlacer.set_base_imu_label("pelvis_imu");
-      imuPlacer.set_base_heading_axis("x");
+      imuPlacer.set_base_heading_axis("-z");
 
       SimTK::Vec3 _rotations;
       // Rotation if filename contains "_l_" (left) or "_r_" (right)

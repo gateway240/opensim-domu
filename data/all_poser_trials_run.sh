@@ -52,7 +52,7 @@ process_file() {
         "$trial"
         "$session"
         0.0
-        10.0
+        20.0
     )
 
     printf '%q ' "${cmd[@]}"
