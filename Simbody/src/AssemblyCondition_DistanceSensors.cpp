@@ -54,6 +54,7 @@ int DistanceSensors::calcGoal(const State &state, Real &goal) const {
   // Loop over each body that has one or more active dsensors.
   Real wtot = 0;
   PerBodyDSensors::const_iterator bodyp = bodiesWithDSensors.begin();
+  // std::cout << "NEW ITERATION: " << std::endl;
   for (; bodyp != bodiesWithDSensors.end(); ++bodyp) {
     const MobilizedBodyIndex mobodIx = bodyp->first;
     const Array_<DSensorIx> &bodyDSensors = bodyp->second;
@@ -64,6 +65,7 @@ int DistanceSensors::calcGoal(const State &state, Real &goal) const {
     for (unsigned m = 0; m < bodyDSensors.size(); ++m) {
       const DSensorIx mx = bodyDSensors[m];
       const DSensor &dsensor = dsensors[mx];
+      // std::cout << "Sensor: " << dsensor.name << std::endl; 
       // std::cout << "Name: " << dsensor.name  << " DSensorIx: " << mx <<
       // std::endl; std::cout << "observation" << ""
       assert(dsensor.bodyA == mobodIx); // better be on this body!
@@ -78,7 +80,8 @@ int DistanceSensors::calcGoal(const State &state, Real &goal) const {
         // << dsensor.sensorInB << std::endl;
         const Real &error = square(true_dist - obs);
         // std::cout << "Error: " << true_dist - obs << " True: " << true_dist
-        // << " Obs: " << obs << " Weight: " << dsensor.weight << std::endl;
+        //           << " Obs: " << obs << " Weight: " << dsensor.weight
+        //           << std::endl;
         goal += dsensor.weight * error;
         wtot += dsensor.weight;
       }

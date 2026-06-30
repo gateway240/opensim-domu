@@ -59,3 +59,11 @@ The code below shows some examples for running trial processing. Execute from th
 
 ```
 TODO: Handle ctrl+c for std::system call
+
+## Distance Weight
+
+```bash
+./make_distance_weight.sh <<EOF
+time	radius_l_imu-radius_r_imu	radius_l_imu-pelvis_imu	radius_l_imu-head_imu	radius_l_imu-femur_l_imu	radius_l_imu-femur_r_imu	radius_r_imu-pelvis_imu	radius_r_imu-head_imu	radius_r_imu-femur_l_imu	radius_r_imu-femur_r_imu	pelvis_imu-head_imu	pelvis_imu-femur_l_imu	pelvis_imu-femur_r_imu	head_imu-femur_l_imu	head_imu-femur_r_imu	femur_l_imu-femur_r_imu
+EOF
+```

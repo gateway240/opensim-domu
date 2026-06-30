@@ -223,7 +223,7 @@ int process(const Parameters &params, std::string &message) {
                                                    end_imu);
     const auto &weight = params.distanceWeightSets[1];
     for (const auto &weight : params.distanceWeightSets) {
-      std::string domuOrientationPath = orientationFilePath;
+      std::string domuOrientationPath = outOrientation;
       std::filesystem::path domuModelPath = orientationModelPath;
       // if (weight.first.getName().find("pelvis_tibia_calcn") !=
       //         std::string::npos ||

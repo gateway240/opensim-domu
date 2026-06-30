@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
 
   std::string scaledModelName = scaleParticipant(scaleParams);
 
-    params.modelPath = scaledModelName;
+  params.modelPath = scaledModelName;
   std::string message;
   int status = process(params, message);
 
